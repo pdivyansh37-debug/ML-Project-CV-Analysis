@@ -253,6 +253,12 @@ async def analyze_cv(
     github_match = re.search(r'github\.com/([^/]+)', github_url)
     github_username = github_match.group(1) if github_match else ""
     
+    if not github_username:
+        raise HTTPException(
+            status_code=400,
+            detail="A valid GitHub username must be parsed from the provided URL."
+        )
+    
     # Verification: Check if username or full URL appears in CV
     is_verified_owner = (github_username.lower() in cv_text.lower()) or (github_url.lower() in cv_text.lower())
     
