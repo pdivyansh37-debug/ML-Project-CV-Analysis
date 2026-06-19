@@ -14,6 +14,8 @@ class RegisterRequest(BaseModel):
     name: str
     password: str
     device_fingerprint: str
+    phone: Optional[str] = None
+    updates_enabled: Optional[bool] = True
 
 class LoginRequest(BaseModel):
     email: str
@@ -31,6 +33,8 @@ class UserResponse(BaseModel):
     id: int
     email: str
     name: str
+    phone: Optional[str] = None
+    updates_enabled: Optional[bool] = True
 
 class TokenResponse(BaseModel):
     access_token: str
@@ -64,7 +68,13 @@ def _build_token_response(user: dict, device_fingerprint: str) -> dict:
     return {
         "access_token": token,
         "token_type": "bearer",
-        "user": {"id": user["id"], "email": user["email"], "name": user["name"]}
+        "user": {
+            "id": user["id"], 
+            "email": user["email"], 
+            "name": user["name"],
+            "phone": user.get("phone"),
+            "updates_enabled": bool(user.get("updates_enabled", 1))
+        }
     }
 
 
@@ -97,13 +107,45 @@ async def register(req: RegisterRequest):
         email=req.email,
         name=req.name,
         hashed_password=hashed,
-        device_fingerprint=req.device_fingerprint
+        device_fingerprint=req.device_fingerprint,
+        phone=req.phone,
+        updates_enabled=1 if req.updates_enabled else 0
     )
 
     if not user:
         raise HTTPException(status_code=500, detail="Failed to create account. Please try again.")
 
     return _build_token_response(user, req.device_fingerprint)
+
+
+class UpdateSettingsRequest(BaseModel):
+    email: str
+    phone: Optional[str] = None
+    updates_enabled: bool
+
+@router.post("/update-settings", summary="Update user email, phone, and notification subscription")
+async def update_settings(req: UpdateSettingsRequest):
+    conn = user_db.get_connection()
+    c = conn.cursor()
+    c.execute(
+        'UPDATE users SET phone = ?, updates_enabled = ? WHERE email = ?',
+        (req.phone, 1 if req.updates_enabled else 0, req.email)
+    )
+    conn.commit()
+    conn.close()
+    updated = user_db.get_user_by_email(req.email)
+    if not updated:
+        raise HTTPException(status_code=404, detail="User not found.")
+    return {
+        "status": "success",
+        "user": {
+            "id": updated["id"],
+            "email": updated["email"],
+            "name": updated["name"],
+            "phone": updated.get("phone"),
+            "updates_enabled": bool(updated.get("updates_enabled", 1))
+        }
+    }
 
 
 @router.post("/login", response_model=TokenResponse, summary="Login with email + password")

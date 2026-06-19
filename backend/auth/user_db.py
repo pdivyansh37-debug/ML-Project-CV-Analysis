@@ -21,25 +21,37 @@ def init_db():
             hashed_password TEXT,
             google_id TEXT,
             device_fingerprint TEXT NOT NULL,
+            phone TEXT,
+            updates_enabled INTEGER DEFAULT 1,
             failed_attempts INTEGER DEFAULT 0,
             locked_until TEXT,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP,
             last_login TEXT
         )
     ''')
+    # Column migration safety checks
+    try:
+        c.execute("ALTER TABLE users ADD COLUMN phone TEXT")
+    except sqlite3.OperationalError:
+        pass # Column already exists
+    try:
+        c.execute("ALTER TABLE users ADD COLUMN updates_enabled INTEGER DEFAULT 1")
+    except sqlite3.OperationalError:
+        pass # Column already exists
+
     conn.commit()
     conn.close()
     print("[OK] Auth database initialized.")
 
-def create_user(email: str, name: str, hashed_password: str, device_fingerprint: str, google_id: str = None):
+def create_user(email: str, name: str, hashed_password: str, device_fingerprint: str, google_id: str = None, phone: str = None, updates_enabled: int = 1):
     """Create a new user. Returns the created user dict or None on duplicate."""
     conn = get_connection()
     c = conn.cursor()
     try:
         c.execute('''
-            INSERT INTO users (email, name, hashed_password, google_id, device_fingerprint)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (email, name, hashed_password, google_id, device_fingerprint))
+            INSERT INTO users (email, name, hashed_password, google_id, device_fingerprint, phone, updates_enabled)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (email, name, hashed_password, google_id, device_fingerprint, phone, updates_enabled))
         conn.commit()
         return get_user_by_email(email)
     except sqlite3.IntegrityError:

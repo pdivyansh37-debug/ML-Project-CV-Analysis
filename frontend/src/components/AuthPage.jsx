@@ -4,7 +4,7 @@ import { getDeviceFingerprint } from '../utils/deviceFingerprint';
 import {
   FiMail, FiLock, FiUser, FiEye, FiEyeOff, FiShield,
   FiCpu, FiCheck, FiX, FiAlertTriangle, FiSmartphone,
-  FiArrowRight, FiRefreshCw
+  FiArrowRight, FiRefreshCw, FiPhone
 } from 'react-icons/fi';
 
 const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
@@ -135,6 +135,8 @@ const AuthPage = ({ onAuthSuccess }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [updatesEnabled, setUpdatesEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [deviceFingerprint, setDeviceFingerprint] = useState('');
@@ -169,7 +171,12 @@ const AuthPage = ({ onAuthSuccess }) => {
           return;
         }
         const res = await axios.post(`${API_BASE_URL}/auth/register`, {
-          email, name, password, device_fingerprint: deviceFingerprint
+          email, 
+          name, 
+          password, 
+          device_fingerprint: deviceFingerprint,
+          phone: phone || null,
+          updates_enabled: updatesEnabled
         });
         localStorage.setItem('tonycv_token', res.data.access_token);
         localStorage.setItem('tonycv_user', JSON.stringify(res.data.user));
@@ -462,6 +469,57 @@ const AuthPage = ({ onAuthSuccess }) => {
                 />
               </div>
             </div>
+
+            {/* Phone Number (register only) */}
+            {mode === 'register' && (
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#9ca3af', marginBottom: '8px', letterSpacing: '0.3px' }}>
+                  PHONE NUMBER
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <FiPhone size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#6b7280', pointerEvents: 'none' }} />
+                  <input
+                    id="auth-phone"
+                    type="tel"
+                    value={phone}
+                    onChange={e => setPhone(e.target.value)}
+                    placeholder="+91 XXXXX XXXXX"
+                    style={{
+                      width: '100%', boxSizing: 'border-box',
+                      padding: '12px 14px 12px 40px',
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.09)',
+                      borderRadius: '10px', color: '#e5e7eb',
+                      fontSize: '14px', outline: 'none',
+                      transition: 'all 0.2s',
+                    }}
+                    onFocus={e => { e.target.style.borderColor = 'rgba(139,92,246,0.6)'; e.target.style.boxShadow = '0 0 0 3px rgba(139,92,246,0.12)'; }}
+                    onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.09)'; e.target.style.boxShadow = 'none'; }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Feature updates check (register only) */}
+            {mode === 'register' && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
+                <input
+                  id="auth-updates"
+                  type="checkbox"
+                  checked={updatesEnabled}
+                  onChange={e => setUpdatesEnabled(e.target.checked)}
+                  style={{
+                    cursor: 'pointer',
+                    width: '15px',
+                    height: '15px',
+                    accentColor: '#7c3aed'
+                  }}
+                />
+                <label htmlFor="auth-updates" style={{ fontSize: '12px', color: '#9ca3af', cursor: 'pointer', selectNone: 'none' }}>
+                  Send me phone / email updates about new features & updates
+                </label>
+              </div>
+            )}
 
             {/* Password */}
             <div>

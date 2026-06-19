@@ -7,11 +7,11 @@
   }
 
   body {
-    @apply text-slate-800 m-0 p-0;
+    @apply text-slate-950 m-0 p-0;
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #f8fafc;
+    background: #f1f5f9;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -22,14 +22,14 @@
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: -1;
-  background: #f8fafc;
+  background: #f1f5f9;
 }
 
 /* ========== Glass Card (Overhauled to clean white shadow cards) ========== */
 .glass-card {
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   border-radius: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

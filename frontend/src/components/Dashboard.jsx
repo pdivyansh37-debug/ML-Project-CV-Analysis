@@ -101,6 +101,9 @@ const generateSkillPlan = (missing_skills) => {
     'Python': { hours: 25, difficulty: 'Beginner', resource: 'Python.org + LeetCode', links: ['https://docs.python.org/3/tutorial/', 'https://leetcode.com/problemset/'], priority: 1 },
     'Java': { hours: 30, difficulty: 'Intermediate', resource: 'Oracle Java Tutorials + HackerRank', links: ['https://dev.java/learn/', 'https://www.hackerrank.com/domains/java'], priority: 2 },
     'C++': { hours: 35, difficulty: 'Advanced', resource: 'cppreference.com + Competitive Programming', links: ['https://en.cppreference.com/', 'https://codeforces.com/'], priority: 3 },
+    'C#': { hours: 30, difficulty: 'Intermediate', resource: 'Microsoft Learn C# + Exercism', links: ['https://learn.microsoft.com/en-us/dotnet/csharp/', 'https://exercism.org/tracks/csharp'], priority: 2 },
+    'Azure': { hours: 25, difficulty: 'Intermediate', resource: 'Microsoft Learn Azure + Labs', links: ['https://learn.microsoft.com/en-us/azure/', 'https://azure.microsoft.com/en-us/free/'], priority: 2 },
+    'Cloud': { hours: 25, difficulty: 'Intermediate', resource: 'AWS Academy + Google Cloud Skills', links: ['https://aws.amazon.com/free/', 'https://cloud.google.com/training/'], priority: 2 },
     'JavaScript': { hours: 20, difficulty: 'Beginner', resource: 'MDN Web Docs + freeCodeCamp', links: ['https://developer.mozilla.org/en-US/docs/Web/JavaScript', 'https://www.freecodecamp.org/'], priority: 1 },
     'SQL': { hours: 15, difficulty: 'Beginner', resource: 'SQLBolt + LeetCode Database', links: ['https://sqlbolt.com/', 'https://leetcode.com/problemset/?topicSlugs=database'], priority: 1 },
     'Machine Learning': { hours: 40, difficulty: 'Advanced', resource: 'Andrew Ng (Coursera) + Kaggle', links: ['https://www.coursera.org/learn/machine-learning', 'https://www.kaggle.com/learn'], priority: 2 },
@@ -120,8 +123,8 @@ const generateSkillPlan = (missing_skills) => {
     const info = skillResources[skill] || {
       hours: 20,
       difficulty: 'Intermediate',
-      resource: 'Online tutorials + Documentation',
-      links: ['https://www.coursera.org/', 'https://www.udemy.com/'],
+      resource: `${skill} Official Docs + Tutorialspoint`,
+      links: [`https://www.google.com/search?q=${encodeURIComponent(skill + ' tutorials learning course')}`, 'https://www.coursera.org/'],
       priority: 2,
     };
     return { skill, ...info };
@@ -1275,27 +1278,63 @@ const Dashboard = ({ result, metrics, onBack }) => {
 
               {missing_skills.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {missing_skills.slice(0, 4).map((skill, idx) => (
-                    <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-[10px] bg-cyan-500/10 text-cyan-400 font-bold px-2 py-0.5 rounded border border-cyan-500/20">Project #{idx + 1}</span>
-                        <span className="text-[10px] font-semibold text-slate-500">Fills Gap: {skill}</span>
+                  {missing_skills.slice(0, 4).map((skill, idx) => {
+                    const matchedPlan = skillPlan.find(p => p.skill === skill) || {};
+                    const links = matchedPlan.links || ['https://www.coursera.org/', 'https://www.udemy.com/'];
+                    // Estimations based on skills
+                    const baseInr = 500000 + (idx * 150000);
+                    const baseUsd = 60000 + (idx * 12000);
+                    return (
+                      <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-[10px] bg-cyan-500/10 text-cyan-400 font-bold px-2 py-0.5 rounded border border-cyan-500/20">Project #{idx + 1}</span>
+                          <span className="text-[10px] font-semibold text-slate-500">Fills Gap: {skill}</span>
+                        </div>
+                        <h4 className="text-slate-800 text-sm font-bold">
+                          {skill === 'AWS' || skill === 'Docker' || skill === 'Kubernetes' ? `Cloud Native ${skill} Orchestration Pipeline` :
+                           skill === 'Python' || skill === 'FastAPI' || skill === 'Node.js' ? `Scalable Backend REST API for ${skill}` :
+                           skill === 'React' || skill === 'JavaScript' || skill === 'TypeScript' ? `Single Page Dashboard App using ${skill}` :
+                           `Production-ready ${skill} Application`}
+                        </h4>
+                        <p className="text-slate-500 text-xs leading-relaxed">
+                          Create a GitHub repository demonstrating clean architecture, unit testing, and Docker setup. Write a detailed README including an architecture design diagram.
+                        </p>
+
+                        {/* Learning links inside Project Catalyst card */}
+                        <div className="pt-2 border-t border-slate-200 space-y-2">
+                          <span className="text-[10px] font-bold text-slate-500 block">📚 SKILL ROADMAP & LEARNING LINKS:</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {links.map((link, li) => (
+                              <a key={li} href={link} target="_blank" rel="noopener noreferrer"
+                                className="text-[10px] px-2.5 py-1 rounded-md font-semibold bg-violet-500/15 text-violet-400 border border-violet-500/20 hover:opacity-85 transition-all">
+                                🔗 {link.replace('https://', '').split('/')[0]}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Salary in 2 categories */}
+                        <div className="pt-2 border-t border-slate-200 space-y-1">
+                          <span className="text-[10px] font-bold text-slate-500 block">💼 ESTIMATED SALARY BUMP (2 CATEGORIES):</span>
+                          <div className="grid grid-cols-2 gap-2 mt-1">
+                            <div className="p-2 rounded bg-emerald-500/5 border border-emerald-500/10">
+                              <div className="text-[8px] text-slate-500 font-bold uppercase">India (Rupees)</div>
+                              <div className="text-xs font-bold text-emerald-400">₹{baseInr.toLocaleString('en-IN')} - ₹{(baseInr + 300000).toLocaleString('en-IN')}</div>
+                            </div>
+                            <div className="p-2 rounded bg-blue-500/5 border border-blue-500/10">
+                              <div className="text-[8px] text-slate-500 font-bold uppercase">Outside (Dollars)</div>
+                              <div className="text-xs font-bold text-blue-400">${baseUsd.toLocaleString()} - ${(baseUsd + 20000).toLocaleString()}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 flex justify-between items-center text-[10px] text-slate-500 border-t border-slate-200 font-mono">
+                          <span>Expected Scope: 12-18 Hours</span>
+                          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">🔗 Reference Templates</a>
+                        </div>
                       </div>
-                      <h4 className="text-slate-800 text-sm font-bold">
-                        {skill === 'AWS' || skill === 'Docker' || skill === 'Kubernetes' ? `Cloud Native ${skill} Orchestration Pipeline` :
-                         skill === 'Python' || skill === 'FastAPI' || skill === 'Node.js' ? `Scalable Backend REST API for ${skill}` :
-                         skill === 'React' || skill === 'JavaScript' || skill === 'TypeScript' ? `Single Page Dashboard App using ${skill}` :
-                         `Production-ready ${skill} Application`}
-                      </h4>
-                      <p className="text-slate-500 text-xs leading-relaxed">
-                        Create a GitHub repository demonstrating clean architecture, unit testing, and Docker setup. Write a detailed README including an architecture design diagram.
-                      </p>
-                      <div className="pt-2 flex justify-between items-center text-[10px] text-slate-500 border-t border-slate-200 font-mono">
-                        <span>Expected Scope: 12-18 Hours</span>
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">🔗 Reference Templates</a>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="text-center py-12 bg-slate-50 rounded-2xl">
@@ -1322,26 +1361,51 @@ const Dashboard = ({ result, metrics, onBack }) => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 {[
                   { label: 'Current Skill Match', value: `${Math.round(skill_match_pct)}%`, labelColor: 'text-violet-400' },
-                  { label: 'Estimated Base Package', value: `$${Math.round(65000 + skill_match_pct * 350)} - $${Math.round(85000 + skill_match_pct * 450)}`, labelColor: 'text-emerald-400' },
-                  { label: 'Upskill Potential Bonus', value: `+$${missing_skills.length * 2800} / Year`, labelColor: 'text-yellow-400' },
+                  { 
+                    label: 'Estimated Base Package', 
+                    value: (
+                      <div className="space-y-1">
+                        <div className="text-emerald-400 font-black text-lg">${Math.round(65000 + skill_match_pct * 350).toLocaleString()} - ${Math.round(85000 + skill_match_pct * 450).toLocaleString()}</div>
+                        <div className="text-slate-500 text-xs font-bold">₹{Math.round((65000 + skill_match_pct * 350) * 83).toLocaleString('en-IN')} - ₹{Math.round((85000 + skill_match_pct * 450) * 83).toLocaleString('en-IN')}</div>
+                      </div>
+                    ), 
+                    customValue: true 
+                  },
+                  { 
+                    label: 'Upskill Potential Bonus', 
+                    value: (
+                      <div className="space-y-1">
+                        <div className="text-yellow-400 font-black text-lg">+${(missing_skills.length * 2800).toLocaleString()} / Year</div>
+                        <div className="text-slate-500 text-xs font-bold">+₹{(missing_skills.length * 2800 * 83).toLocaleString('en-IN')} / Year</div>
+                      </div>
+                    ), 
+                    customValue: true 
+                  },
                 ].map((item, i) => (
-                  <div key={i} className="bg-slate-50 border border-slate-200 p-5 rounded-xl text-center">
+                  <div key={i} className="bg-slate-50 border border-slate-200 p-5 rounded-xl text-center flex flex-col justify-between min-h-[110px]">
                     <span className="text-slate-500 text-[10px] uppercase font-bold tracking-wider">{item.label}</span>
-                    <div className={`text-xl font-black mt-2 ${item.labelColor}`}>{item.value}</div>
+                    {item.customValue ? (
+                      <div className="mt-2">{item.value}</div>
+                    ) : (
+                      <div className={`text-xl font-black mt-2 ${item.labelColor}`}>{item.value}</div>
+                    )}
                   </div>
                 ))}
               </div>
 
               <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-4">
-                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">Salary Simulator</h4>
+                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">Salary Simulator (2 Categories)</h4>
                 <p className="text-xs text-slate-500">
                   Each required skill added to your resume increases your competitive value. Here is the estimated annual package bump for target skills:
                 </p>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {missing_skills.map((skill, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-200 pb-2">
+                    <div key={idx} className="flex flex-col md:flex-row md:justify-between md:items-center text-xs border-b border-slate-200 pb-2 gap-2">
                       <span className="text-slate-600 font-mono font-medium">{skill}</span>
-                      <span className="text-emerald-400 font-bold">+$2,800 / yr increase</span>
+                      <div className="flex gap-4">
+                        <span className="text-emerald-400 font-bold">🇺🇸 +$2,800 / yr</span>
+                        <span className="text-blue-400 font-bold">🇮🇳 +₹2,32,000 / yr</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1358,12 +1422,39 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiGlobe size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-800">ATS Resume Rephrase Toolkit</h3>
-                  <p className="text-xs text-slate-500 mt-1">Actionable bullet-point improvements to clear parsing algorithms and recruiter filters</p>
+                  <h3 className="text-xl font-bold text-slate-800">ATS Resume Rephrase & Toolkits</h3>
+                  <p className="text-xs text-slate-500 mt-1">Actionable bullet-point improvements and easy-to-use toolkit links for optimization</p>
                 </div>
               </div>
 
               <div className="space-y-4">
+                {/* Easy to use Toolkits Roadmaps & Links Section */}
+                <div className="bg-gradient-to-r from-violet-600/10 to-indigo-600/10 border border-violet-500/20 rounded-xl p-5 space-y-3">
+                  <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">🚀 ATS Optimization Toolkits & Roadmaps</h4>
+                  <p className="text-xs text-slate-500">
+                    Use these selected tools and prompt roadmaps to easily rewrite, verify, and compile your resume:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    {[
+                      { name: 'Jobscan ATS Checker', desc: 'Simulate ATS keyword scanning matching.', link: 'https://www.jobscan.co/' },
+                      { name: 'Overleaf LaTeX Editor', desc: 'Sleek, ATS-friendly single column templates.', link: 'https://www.overleaf.com/' },
+                      { name: 'ChatGPT Prompt Helper', desc: 'Generate Action-Impact bullet points.', link: 'https://chat.openai.com/' },
+                      { name: 'Resume Worded', desc: 'Check structure, formatting & score.', link: 'https://resumeworded.com/' }
+                    ].map((tool, ti) => (
+                      <div key={ti} className="bg-white border border-slate-200/60 p-3 rounded-lg flex flex-col justify-between">
+                        <div>
+                          <div className="text-xs font-bold text-slate-800">{tool.name}</div>
+                          <div className="text-[10px] text-slate-500 mt-0.5">{tool.desc}</div>
+                        </div>
+                        <a href={tool.link} target="_blank" rel="noopener noreferrer" 
+                          className="text-[10px] text-violet-400 font-bold hover:underline flex items-center gap-1 mt-2">
+                          Access Tool 🔗
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
                   <h4 className="text-sm font-bold text-slate-800">Action-Impact Bullet Framework</h4>
                   <p className="text-xs text-slate-500 leading-relaxed">
