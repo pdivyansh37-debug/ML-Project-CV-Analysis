@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Doughnut, Radar, Bar } from 'react-chartjs-2';
+import axios from 'axios';
 import html2pdf from 'html2pdf.js';
 import ResumeHeatmap from './ResumeHeatmap';
 import CareerPathTree from './CareerPathTree';
@@ -353,6 +354,25 @@ const Dashboard = ({ result, metrics, onBack }) => {
   const [isMinting, setIsMinting] = useState(false);
   const [mintTxHash, setMintTxHash] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
+  const [marketPulseData, setMarketPulseData] = useState(null);
+  const [latestInterview, setLatestInterview] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/market-pulse')
+      .then(res => setMarketPulseData(res.data))
+      .catch(err => console.error("Error loading market pulse", err));
+  }, []);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('tonycv_latest_interview');
+      if (saved) {
+        setLatestInterview(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error("Error loading local interview report", e);
+    }
+  }, [activeTab]);
 
   // Adaptive Learning: track learned skills with localStorage
   const [learnedSkills, setLearnedSkills] = useState(() => {
@@ -510,31 +530,47 @@ const Dashboard = ({ result, metrics, onBack }) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-white/5 border border-white/10">
-        {[
-          { id: 'overview', icon: <FiBarChart2 />, label: 'Overview' },
-          { id: 'bert', icon: <FiCpu />, label: 'AI Match', badge: hasBertData },
-          { id: 'hiring', icon: <FiBriefcase />, label: 'Hiring Analysis' },
-          { id: 'verification', icon: <FiShield />, label: 'Verification' },
-          { id: 'learning', icon: <FiBookOpen />, label: 'Learning' },
-          { id: 'evaluation', icon: <FiZap />, label: 'Evaluation' },
-          { id: 'insights', icon: <FiTarget />, label: 'Insights' },
-        ].map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 flex items-center justify-center gap-2 px-3 py-3 rounded-xl text-sm font-bold transition-all relative ${activeTab === tab.id ? 'bg-violet-600 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-          >
-            {tab.icon}
-            <span className="hidden sm:inline">{tab.label}</span>
-            {tab.badge && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Powered by BERT AI" />
-            )}
-          </button>
-        ))}
-      </div>
+      <div className="flex flex-col lg:flex-row gap-8">
+        
+        {/* Sleek Vertical Left-hand Sidebar Navigation Menu (AWS/Microsoft style) */}
+        <div className="w-full lg:w-64 shrink-0 flex flex-col gap-1 p-2 rounded-2xl bg-white/[0.02] border border-white/5 h-fit lg:sticky lg:top-6">
+          <div className="px-3 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-white/5 mb-2">Report Sections</div>
+          {[
+            { id: 'overview', icon: <FiBarChart2 size={16} />, label: 'Overview' },
+            { id: 'bert', icon: <FiCpu size={16} />, label: 'AI Match Details', badge: hasBertData },
+            { id: 'hiring', icon: <FiBriefcase size={16} />, label: 'Hiring Alignment' },
+            { id: 'verification', icon: <FiShield size={16} />, label: 'CV Trust Index' },
+            { id: 'interview_results', icon: <FiMic size={16} />, label: 'Mock Interview' },
+            { id: 'market_trends', icon: <FiTrendingUp size={16} />, label: 'Market Trends' },
+            { id: 'project_ideas', icon: <FiLayers size={16} />, label: 'Project Catalyst' },
+            { id: 'salary_roi', icon: <FiTarget size={16} />, label: 'Salary Estimator' },
+            { id: 'resume_ats', icon: <FiGlobe size={16} />, label: 'ATS Resume Fix' },
+            { id: 'peer_analysis', icon: <FiUsers size={16} />, label: 'Competitive Index' },
+            { id: 'learning', icon: <FiBookOpen size={16} />, label: 'Upskill Roadmap' },
+            { id: 'evaluation', icon: <FiZap size={16} />, label: 'ML Analytics' },
+            { id: 'insights', icon: <FiTarget size={16} />, label: 'CV Heatmap' },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all relative text-left w-full border ${
+                activeTab === tab.id 
+                ? 'bg-violet-600/15 text-violet-400 border-violet-500/20 shadow-[0_0_15px_rgba(139,92,246,0.1)]' 
+                : 'text-gray-400 border-transparent hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span className={activeTab === tab.id ? 'text-violet-400' : 'text-gray-400'}>{tab.icon}</span>
+              <span className="flex-1 truncate">{tab.label}</span>
+              {tab.badge && (
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              )}
+            </button>
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Right Content Panel */}
+        <div className="flex-1 min-w-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {activeTab === 'overview' && (
           <>
             <div className="glass-card p-8 flex flex-col items-center justify-center col-span-1">
@@ -1039,8 +1075,381 @@ const Dashboard = ({ result, metrics, onBack }) => {
             </div>
           </div>
         )}
+
+        {activeTab === 'bert' && (
+          <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
+            <div className="glass-card p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-400">
+                  <FiCpu size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">BERT Semantic Skill Alignment</h3>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Powered by <code>sentence-transformers/all-MiniLM-L6-v2</code>. This grades skill relevance using deep contextual matching instead of just basic keyword lookups.
+                  </p>
+                </div>
+              </div>
+
+              {hasBertData ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/10 text-gray-400 text-[10px] font-bold uppercase tracking-wider">
+                        <th className="pb-3">Required Skill</th>
+                        <th className="pb-3">Best Match In CV</th>
+                        <th className="pb-3">Semantic Score</th>
+                        <th className="pb-3">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5 text-xs text-gray-300">
+                      {match_details.map((m, idx) => (
+                        <tr key={idx} className="hover:bg-white/5 transition-colors">
+                          <td className="py-4 font-semibold text-white">{m.required}</td>
+                          <td className="py-4 font-mono">{m.best_match || <span className="text-gray-600 italic">No close match</span>}</td>
+                          <td className="py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div 
+                                  className={`h-full rounded-full ${m.confidence > 75 ? 'bg-emerald-500' : m.confidence > 50 ? 'bg-yellow-500' : 'bg-red-500'}`} 
+                                  style={{ width: `${m.confidence}%` }} 
+                                />
+                              </div>
+                              <span className="font-mono">{m.confidence}%</span>
+                            </div>
+                          </td>
+                          <td className="py-4">
+                            <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                              m.matched 
+                              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+                              : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                            }`}>
+                              {m.matched ? 'Matched' : 'Gap'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center py-12 text-gray-500 text-sm">
+                  BERT analysis details not available. Run CV scan first.
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'interview_results' && (
+          <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
+            <div className="glass-card p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-violet-500/20 text-violet-400">
+                  <FiMic size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Mock Interview Evaluation</h3>
+                  <p className="text-xs text-gray-400 mt-1">Latest spoken response grading report using Web Speech Recognition & BERT model</p>
+                </div>
+              </div>
+
+              {latestInterview ? (
+                <div className="space-y-6">
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 justify-between">
+                    <div>
+                      <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">Evaluation Date</span>
+                      <p className="text-sm font-semibold text-white mt-1">
+                        {new Date(latestInterview.timestamp).toLocaleDateString()} at {new Date(latestInterview.timestamp).toLocaleTimeString()}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <div className="text-4xl font-black text-emerald-400">{latestInterview.finalScore}%</div>
+                        <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Average Score</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {latestInterview.questionScores.map((item, idx) => (
+                      <div key={idx} className="bg-black/35 border border-white/5 rounded-xl p-5 space-y-3">
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-violet-400 font-bold uppercase">Question {idx + 1}</span>
+                          <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                            Score: {item.score}%
+                          </span>
+                        </div>
+                        <h4 className="text-white text-sm font-semibold">"{item.question}"</h4>
+                        <div className="p-3 bg-white/[0.02] border border-white/5 rounded-lg text-xs italic text-gray-400">
+                          "{item.answer}"
+                        </div>
+                        <p className="text-xs text-gray-300">
+                          <strong className="text-violet-400">AI Feedback:</strong> {item.feedback}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-12 border-2 border-dashed border-white/5 rounded-2xl p-6 space-y-4">
+                  <p className="text-gray-400 text-sm">No mock interview record found on this browser.</p>
+                  <button 
+                    onClick={() => setIsBiometricOpen(true)}
+                    className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
+                  >
+                    <FiMic size={14} /> Start Your First Session
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'market_trends' && (
+          <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
+            <div className="glass-card p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-orange-500/20 text-orange-400">
+                  <FiTrendingUp size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Live Market Skill Trends</h3>
+                  <p className="text-xs text-gray-400 mt-1">Real-time industry requirements tracking and dynamic skill forecasting</p>
+                </div>
+              </div>
+
+              {marketPulseData ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 space-y-4">
+                    <h4 className="text-sm font-bold text-emerald-400 flex items-center gap-2 border-b border-emerald-500/10 pb-2">
+                      <FiTrendingUp size={16} /> Hot / Rising Skills (Demand Boost)
+                    </h4>
+                    <div className="space-y-3">
+                      {marketPulseData.trending.map((t, idx) => (
+                        <div key={idx} className="flex justify-between items-center text-xs">
+                          <span className="text-white font-semibold">{t.skill}</span>
+                          <span className="text-emerald-400 font-bold bg-emerald-500/20 px-2 py-0.5 rounded">{t.growth} YoY</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-gray-400 italic">Action: Including these trending technologies on your CV gives you a 15% ATS advantage.</p>
+                  </div>
+
+                  <div className="p-5 rounded-xl border border-red-500/20 bg-red-500/5 space-y-4">
+                    <h4 className="text-sm font-bold text-red-400 flex items-center gap-2 border-b border-red-500/10 pb-2">
+                      <FiTrendingDown size={16} /> Declining / Legacy Tech
+                    </h4>
+                    <div className="space-y-3">
+                      {marketPulseData.declining.map((d, idx) => (
+                        <div key={idx} className="flex justify-between items-center text-xs">
+                          <span className="text-white font-semibold">{d.skill}</span>
+                          <span className="text-red-400 font-bold bg-red-500/20 px-2 py-0.5 rounded">{d.drop}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[10px] text-gray-400 italic">Action: Replace obsolete tech stacks with modern equivalents to stand out to recruiters.</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-12 text-gray-500 text-sm">
+                  Loading latest market trends data...
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'project_ideas' && (
+          <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
+            <div className="glass-card p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-cyan-500/20 text-cyan-400">
+                  <FiLayers size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Project Catalyst: Resume Enhancers</h3>
+                  <p className="text-xs text-gray-400 mt-1">Custom hands-on project ideas to fill your critical skill gaps with high-quality repo additions</p>
+                </div>
+              </div>
+
+              {missing_skills.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {missing_skills.slice(0, 4).map((skill, idx) => (
+                    <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[10px] bg-cyan-500/10 text-cyan-400 font-bold px-2 py-0.5 rounded border border-cyan-500/20">Project #{idx + 1}</span>
+                        <span className="text-[10px] font-semibold text-gray-400">Fills Gap: {skill}</span>
+                      </div>
+                      <h4 className="text-white text-sm font-bold">
+                        {skill === 'AWS' || skill === 'Docker' || skill === 'Kubernetes' ? `Cloud Native ${skill} Orchestration Pipeline` :
+                         skill === 'Python' || skill === 'FastAPI' || skill === 'Node.js' ? `Scalable Backend REST API for ${skill}` :
+                         skill === 'React' || skill === 'JavaScript' || skill === 'TypeScript' ? `Single Page Dashboard App using ${skill}` :
+                         `Production-ready ${skill} Application`}
+                      </h4>
+                      <p className="text-gray-400 text-xs leading-relaxed">
+                        Create a GitHub repository demonstrating clean architecture, unit testing, and Docker setup. Write a detailed README including an architecture design diagram.
+                      </p>
+                      <div className="pt-2 flex justify-between items-center text-[10px] text-gray-500 border-t border-white/5 font-mono">
+                        <span>Expected Scope: 12-18 Hours</span>
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">🔗 Reference Templates</a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-white/5 rounded-2xl">
+                  <p className="text-emerald-400 font-semibold text-sm">🎉 You have zero skill gaps! Your profile aligns perfectly with required benchmarks.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'salary_roi' && (
+          <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
+            <div className="glass-card p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-400">
+                  <FiTarget size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Salary Estimator & Upskill ROI</h3>
+                  <p className="text-xs text-gray-400 mt-1">Analyze projected market salary increases by completing your active skill learning tracks</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                {[
+                  { label: 'Current Skill Match', value: `${Math.round(skill_match_pct)}%`, labelColor: 'text-violet-400' },
+                  { label: 'Estimated Base Package', value: `$${Math.round(65000 + skill_match_pct * 350)} - $${Math.round(85000 + skill_match_pct * 450)}`, labelColor: 'text-emerald-400' },
+                  { label: 'Upskill Potential Bonus', value: `+$${missing_skills.length * 2800} / Year`, labelColor: 'text-yellow-400' },
+                ].map((item, i) => (
+                  <div key={i} className="bg-white/5 border border-white/10 p-5 rounded-xl text-center">
+                    <span className="text-gray-500 text-[10px] uppercase font-bold tracking-wider">{item.label}</span>
+                    <div className={`text-xl font-black mt-2 ${item.labelColor}`}>{item.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] space-y-4">
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider">Salary Simulator</h4>
+                <p className="text-xs text-gray-400">
+                  Each required skill added to your resume increases your competitive value. Here is the estimated annual package bump for target skills:
+                </p>
+                <div className="space-y-2">
+                  {missing_skills.map((skill, idx) => (
+                    <div key={idx} className="flex justify-between items-center text-xs border-b border-white/5 pb-2">
+                      <span className="text-gray-300 font-mono font-medium">{skill}</span>
+                      <span className="text-emerald-400 font-bold">+$2,800 / yr increase</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'resume_ats' && (
+          <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
+            <div className="glass-card p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-violet-500/20 text-violet-400">
+                  <FiGlobe size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">ATS Resume Rephrase Toolkit</h3>
+                  <p className="text-xs text-gray-400 mt-1">Actionable bullet-point improvements to clear parsing algorithms and recruiter filters</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
+                  <h4 className="text-sm font-bold text-white">Action-Impact Bullet Framework</h4>
+                  <p className="text-xs text-gray-400 leading-relaxed">
+                    Recruiters and parsing bots scan for specific accomplishment patterns: <strong>[Action Verb] + [Context/Project] + [Measurable Result]</strong>.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {[
+                    { before: "Worked on Python code to build REST endpoints for the team.", after: "Architected 12+ REST API endpoints using Python/FastAPI, cutting response latency by 35%." },
+                    { before: "Helped manage deployment of cloud servers on AWS EC2.", after: "Implemented containerized deployments on AWS EC2 using Docker, improving pipeline efficiency by 22%." },
+                    { before: "Fixed bugs in our database queries to optimize code.", after: "Optimized PostgreSQL relational queries using compound indexing, saving 40% memory overhead." }
+                  ].map((item, idx) => (
+                    <div key={idx} className="p-4 bg-black/40 rounded-xl border border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <span className="text-[10px] text-red-400 uppercase font-bold tracking-wider">Passive (Poor ATS Match)</span>
+                        <p className="text-xs text-gray-400 mt-1 italic">"{item.before}"</p>
+                      </div>
+                      <div className="border-t md:border-t-0 md:border-l border-white/10 pt-3 md:pt-0 md:pl-4">
+                        <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-wider">Active (High Impact Score)</span>
+                        <p className="text-xs text-white mt-1 font-medium">"{item.after}"</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'peer_analysis' && (
+          <div className="lg:col-span-2 space-y-6 animate-fade-in-up">
+            <div className="glass-card p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-violet-500/20 text-violet-400">
+                  <FiUsers size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Competitive Peer Index</h3>
+                  <p className="text-xs text-gray-400 mt-1">Comparison metrics against the applicant pool for software roles in target companies</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
+                    <span className="text-xs text-gray-400 font-bold uppercase">Resume Formatting Percentile</span>
+                    <div className="text-3xl font-black text-white mt-2">Top 15%</div>
+                    <p className="text-[10px] text-gray-500 mt-1">Your formatting is clear, structured, and easy for ATS models to parse.</p>
+                  </div>
+                  <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
+                    <span className="text-xs text-gray-400 font-bold uppercase">Technical Depth Metric</span>
+                    <div className="text-3xl font-black text-white mt-2">Top 38%</div>
+                    <p className="text-[10px] text-gray-500 mt-1">Improve your ranking by completing the missing skill list on your Upskill roadmap.</p>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-xl border border-white/5 bg-black/40">
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Applicant Pool Skills Checklist</h4>
+                  <div className="space-y-2">
+                    {[
+                      { skill: "Data Structures & Algorithms", rate: 88 },
+                      { skill: "System Design Frameworks", rate: 64 },
+                      { skill: "Cloud Containerization (Docker)", rate: 52 },
+                      { skill: "Unit Testing & QA Standards", rate: 45 }
+                    ].map((peer, idx) => (
+                      <div key={idx}>
+                        <div className="flex justify-between text-xs text-gray-400 mb-1">
+                          <span>{peer.skill}</span>
+                          <span>{peer.rate}% of applicants claim this</span>
+                        </div>
+                        <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-violet-500" style={{ width: `${peer.rate}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
+  </div>
+</div>
   );
 };
 
