@@ -60,7 +60,7 @@ const CompanyDropdown = ({ value, onChange, companies }) => {
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all text-left border"
         style={{
-          backgroundColor: open ? '#000000' : 'rgba(0,0,0,0.4)',
+          backgroundColor: open ? '#ffffff' : 'rgba(255,255,255,1)',
           borderColor: open ? 'rgba(139,92,246,0.8)' : 'rgba(255,255,255,0.1)',
           boxShadow: open ? '0 0 20px rgba(139,92,246,0.3)' : 'none',
         }}
@@ -71,17 +71,17 @@ const CompanyDropdown = ({ value, onChange, companies }) => {
                   style={{ background: meta.bg }}>
               {meta.icon}
             </span>
-            <span className="flex-1 text-white font-bold truncate">{selected}</span>
+            <span className="flex-1 text-slate-800 font-bold truncate">{selected}</span>
           </>
         ) : (
           <>
-            <FiBriefcase size={18} className="text-gray-500 shrink-0" />
-            <span className="flex-1 text-gray-500 font-medium">Select a company...</span>
+            <FiBriefcase size={18} className="text-slate-500 shrink-0" />
+            <span className="flex-1 text-slate-500 font-medium">Select a company...</span>
           </>
         )}
         <FiChevronDown
           size={18}
-          className={`shrink-0 transition-transform duration-300 ${open ? 'rotate-180 text-violet-400' : 'text-gray-400'}`}
+          className={`shrink-0 transition-transform duration-300 ${open ? 'rotate-180 text-violet-400' : 'text-slate-500'}`}
         />
       </button>
 
@@ -90,35 +90,35 @@ const CompanyDropdown = ({ value, onChange, companies }) => {
         <div className="absolute top-full left-0 right-0 mt-2 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.9)] overflow-hidden animate-dropdown-fade-in"
              style={{ 
                zIndex: 1001, 
-                backgroundColor: '#000000 !important', 
-                border: '1px solid rgba(255,255,255,0.15)' 
+                backgroundColor: '#ffffff !important', 
+                border: '1px solid rgba(203,213,225,1)' 
               }}>
           {/* Version Indicator */}
-          <div className="px-4 py-2 text-[9px] font-bold text-violet-400/50 uppercase tracking-widest border-b border-white/5">
+          <div className="px-4 py-2 text-[9px] font-bold text-violet-400/50 uppercase tracking-widest border-b border-slate-200">
             Verification Stack v2.5.3
           </div>
           {/* Search inside dropdown */}
           {companies.length > 5 && (
-            <div className="p-2.5 border-b border-white/5 bg-white/[0.01]">
+            <div className="p-2.5 border-b border-slate-200 bg-white">
               <div className="relative">
-                <FiSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                <FiSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input
                   ref={searchRef}
                   type="text"
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   placeholder="Search company..."
-                  className="w-full rounded-lg py-2 pl-9 pr-3 text-sm text-white outline-none transition-all font-medium"
-                  style={{ backgroundColor: '#111', border: '1px solid rgba(255,255,255,0.15)' }}
+                  className="w-full rounded-lg py-2 pl-9 pr-3 text-sm text-slate-800 outline-none transition-all font-medium"
+                  style={{ backgroundColor: '#111', border: '1px solid rgba(203,213,225,1)' }}
                 />
               </div>
             </div>
           )}
 
           {/* Company List */}
-          <div className="max-h-60 overflow-y-auto p-1.5 custom-scrollbar" style={{ backgroundColor: '#000000' }}>
+          <div className="max-h-60 overflow-y-auto p-1.5 custom-scrollbar" style={{ backgroundColor: '#ffffff' }}>
             {filtered.length === 0 ? (
-              <div className="py-8 text-center text-gray-500 text-sm">
+              <div className="py-8 text-center text-slate-500 text-sm">
                 No companies found
               </div>
             ) : filtered.map(company => {
@@ -139,7 +139,7 @@ const CompanyDropdown = ({ value, onChange, companies }) => {
                     backgroundColor: isSelected ? 'rgba(139,92,246,0.3)' : 'transparent',
                     border: isSelected ? '1px solid rgba(139,92,246,0.4)' : 'none'
                   }}
-                  onMouseEnter={e => { if (!isSelected) e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'; }}
+                  onMouseEnter={e => { if (!isSelected) e.currentTarget.style.backgroundColor = 'rgba(226,232,240,1)'; }}
                   onMouseLeave={e => { if (!isSelected) e.currentTarget.style.backgroundColor = 'transparent'; }}
                 >
                   <span className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 text-lg"
@@ -147,7 +147,7 @@ const CompanyDropdown = ({ value, onChange, companies }) => {
                     {m.icon}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <div className={`text-sm font-medium truncate ${isSelected ? 'text-white' : 'text-gray-300'}`}>
+                    <div className={`text-sm font-medium truncate ${isSelected ? 'text-slate-800' : 'text-slate-600'}`}>
                       {company}
                     </div>
                     {isSelected && (
@@ -171,7 +171,7 @@ const CompanyDropdown = ({ value, onChange, companies }) => {
         }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #000; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(203,213,225,1); border-radius: 10px; }
       `}</style>
     </div>
   );
@@ -293,15 +293,15 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
           <FiUploadCloud size={22} />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-white">Analyze Your Profile</h2>
-          <p className="text-gray-500 text-sm">Fill in your details to generate an AI report</p>
+          <h2 className="text-xl font-bold text-slate-800">Analyze Your Profile</h2>
+          <p className="text-slate-500 text-sm">Fill in your details to generate an AI report</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* File Upload Zone */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-3">Resume / CV</label>
+          <label className="block text-sm font-medium text-slate-500 mb-3">Resume / CV</label>
           <div
             className={`upload-zone ${cvFile ? 'active' : ''} ${dragOver ? 'active' : ''}`}
             onClick={() => document.getElementById('cv-upload').click()}
@@ -316,14 +316,14 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
               className="hidden"
               onChange={(e) => setCvFile(e.target.files[0])}
             />
-            <div className={`p-4 rounded-2xl transition-all ${cvFile ? 'bg-violet-500/20 text-violet-300' : 'bg-white/5 text-gray-500'}`}>
+            <div className={`p-4 rounded-2xl transition-all ${cvFile ? 'bg-violet-500/20 text-violet-300' : 'bg-slate-50 text-slate-500'}`}>
               <FiUploadCloud size={28} />
             </div>
             <div className="text-center">
-              <p className="text-gray-200 font-semibold text-sm">
+              <p className="text-slate-700 font-semibold text-sm">
                 {cvFile ? cvFile.name : 'Click to upload or drag & drop'}
               </p>
-              <p className="text-gray-600 text-xs mt-1">
+              <p className="text-slate-400 text-xs mt-1">
                 {cvFile ? `${(cvFile.size / 1024 / 1024).toFixed(2)} MB • PDF` : 'PDF only • Max 5MB'}
               </p>
             </div>
@@ -331,7 +331,7 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); setCvFile(null); }}
-                className="absolute top-3 right-3 text-xs text-gray-500 hover:text-red-400 transition px-2 py-1 rounded-md bg-white/5"
+                className="absolute top-3 right-3 text-xs text-slate-500 hover:text-red-400 transition px-2 py-1 rounded-md bg-slate-50"
               >
                 Remove
               </button>
@@ -342,10 +342,10 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
         {/* Voice Input Section */}
         {supportsVoice && (
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-3">
-              <FiMic size={14} /> Voice Skill Input <span className="text-gray-600 text-xs">(optional)</span>
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-3">
+              <FiMic size={14} /> Voice Skill Input <span className="text-slate-400 text-xs">(optional)</span>
             </label>
-            <div className="p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255,255,255,0.06)'}` }}>
+            <div className="p-4 rounded-xl" style={{ background: 'rgba(248,250,252,1)', border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.4)' : 'rgba(226,232,240,1)'}` }}>
               <div className="flex items-center gap-3 mb-3">
                 <button
                   type="button"
@@ -355,17 +355,17 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
                   {isListening ? <FiMicOff size={20} /> : <FiMic size={20} />}
                 </button>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-white">
+                  <p className="text-sm font-medium text-slate-800">
                     {isListening ? '🔴 Listening... Speak your skills' : 'Click mic to speak your skills'}
                   </p>
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-slate-500 text-xs">
                     {isListening ? 'Say: "I know Python, Java, and Machine Learning"' : 'The AI will detect skills from your voice'}
                   </p>
                 </div>
               </div>
 
               {voiceText && (
-                <div className="mb-3 p-3 rounded-lg text-sm text-gray-300 italic" style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="mb-3 p-3 rounded-lg text-sm text-slate-600 italic" style={{ background: 'rgba(248,250,252,1)', border: '1px solid rgba(0,0,0,0.04)' }}>
                   "{voiceText}"
                 </div>
               )}
@@ -394,7 +394,7 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* CGPA */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-3">
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-3">
               <FiAward size={14} /> CGPA
             </label>
             <input
@@ -408,12 +408,12 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
               onChange={(e) => setCgpa(e.target.value)}
               required
             />
-            <p className="text-gray-600 text-xs mt-1.5">Scale of 0–10</p>
+            <p className="text-slate-400 text-xs mt-1.5">Scale of 0–10</p>
           </div>
 
           {/* Company — Custom Dropdown (replaces <select>) */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-3">
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-3">
               <FiBriefcase size={14} /> Target Company
             </label>
             <CompanyDropdown
@@ -422,17 +422,17 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
               companies={companyList}
             />
             {!targetCompany && (
-              <p className="text-gray-600 text-xs mt-1.5">{companyList.length} companies available</p>
+              <p className="text-slate-400 text-xs mt-1.5">{companyList.length} companies available</p>
             )}
           </div>
         </div>
 
         {/* Experience Level Selector */}
         <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-3">
+          <label className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-3">
             <FiUsers size={14} /> Experience Level
           </label>
-          <div className="grid grid-cols-3 gap-2 p-1.5 rounded-xl" style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="grid grid-cols-3 gap-2 p-1.5 rounded-xl" style={{ background: 'rgba(255,255,255,1)', border: '1px solid rgba(255,255,255,0.1)' }}>
             {[
               { id: 'fresher', label: 'Fresher', icon: <FiUser size={16} />, sub: '0-1 years', color: '#10b981' },
               { id: 'experienced', label: 'Experienced', icon: <FiUsers size={16} />, sub: '2-5 years', color: '#f59e0b' },
@@ -443,7 +443,7 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
                 type="button"
                 id={`experience-${exp.id}`}
                 onClick={() => setExperienceLevel(exp.id)}
-                className={`relative flex flex-col items-center gap-1.5 px-3 py-3 rounded-lg transition-all duration-300 ${experienceLevel === exp.id ? 'text-white' : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'}`}
+                className={`relative flex flex-col items-center gap-1.5 px-3 py-3 rounded-lg transition-all duration-300 ${experienceLevel === exp.id ? 'text-slate-800' : 'text-slate-500 hover:text-slate-600 hover:bg-slate-50'}`}
                 style={experienceLevel === exp.id ? {
                   background: `linear-gradient(135deg, ${exp.color}25, ${exp.color}10)`,
                   border: `1px solid ${exp.color}50`,
@@ -453,22 +453,22 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
                 <div className="transition-all" style={{ color: experienceLevel === exp.id ? exp.color : 'inherit' }}>
                   {exp.icon}
                 </div>
-                <span className={`text-xs font-bold ${experienceLevel === exp.id ? 'text-white' : ''}`}>{exp.label}</span>
+                <span className={`text-xs font-bold ${experienceLevel === exp.id ? 'text-slate-800' : ''}`}>{exp.label}</span>
                 <span className="text-[10px]" style={{ color: experienceLevel === exp.id ? exp.color : '#6b7280' }}>{exp.sub}</span>
                 {experienceLevel === exp.id && (
                   <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: exp.color }}>
-                    <FiCheck size={10} className="text-white" />
+                    <FiCheck size={10} className="text-slate-800" />
                   </div>
                 )}
               </button>
             ))}
           </div>
-          <p className="text-gray-600 text-xs mt-1.5">Hiring analysis will be categorized based on your experience</p>
+          <p className="text-slate-400 text-xs mt-1.5">Hiring analysis will be categorized based on your experience</p>
         </div>
 
         {/* GitHub URL */}
         <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-3">
+          <label className="flex items-center gap-2 text-sm font-medium text-slate-500 mb-3">
             <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="14" width="14" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
             </svg>
@@ -504,12 +504,12 @@ const InputForm = ({ onAnalyze, isLoading, companies }) => {
 
         {/* Validation hint */}
         {(!cvFile || !cgpa || !targetCompany || !githubUrl) && (
-          <p className="text-center text-gray-600 text-xs">
+          <p className="text-center text-slate-400 text-xs">
             {!cvFile ? '📄 Upload a PDF resume' : !cgpa ? '🎓 Enter your CGPA' : !targetCompany ? '🏢 Select a target company' : '🐙 Link your GitHub'} to continue
           </p>
         )}
         
-        <div className="text-center mt-6 pt-4 border-t border-white/5">
+        <div className="text-center mt-6 pt-4 border-t border-slate-200">
           <p className="text-[10px] text-gray-700 font-mono tracking-widest uppercase">Verification Engine v2.5.3 - SECURE DEPLOYMENT</p>
         </div>
       </form>

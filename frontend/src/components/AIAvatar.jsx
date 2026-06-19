@@ -154,9 +154,9 @@ const AIAvatar = ({ placement_probability, missing_skills, result }) => {
           className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gradient-to-tr from-violet-600 to-fuchsia-500 shadow-[0_0_30px_rgba(139,92,246,0.5)] z-40 flex items-center justify-center hover:scale-110 transition-transform group"
         >
           <div className="absolute inset-0 rounded-full border border-white/30 animate-ping opacity-50"></div>
-          <FiVolume2 className="text-white relative z-10" size={24} />
+          <FiVolume2 className="text-slate-800 relative z-10" size={24} />
           
-          <div className="absolute right-full mr-4 bg-black/80 backdrop-blur text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity border border-white/10">
+          <div className="absolute right-full mr-4 bg-black/80 backdrop-blur text-slate-800 text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity border border-slate-200">
             Talk to AI Recruiter
           </div>
         </button>
@@ -166,39 +166,39 @@ const AIAvatar = ({ placement_probability, missing_skills, result }) => {
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-80 md:w-96 glass-card p-0 overflow-hidden z-50 shadow-2xl border border-white/20 animate-fade-in-up">
           {/* Header */}
-          <div className="bg-gradient-to-r from-violet-900/50 to-fuchsia-900/50 p-4 border-b border-white/10 flex justify-between items-center relative overflow-hidden">
+          <div className="bg-gradient-to-r from-violet-900/50 to-fuchsia-900/50 p-4 border-b border-slate-200 flex justify-between items-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/20 blur-[50px] rounded-full"></div>
             <div className="flex items-center gap-3 relative z-10">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 p-0.5">
                 <div className="w-full h-full bg-black rounded-full flex items-center justify-center relative overflow-hidden">
-                  <div className={`w-full h-full bg-white/20 rounded-full ${speaking ? 'animate-pulse scale-150' : ''} transition-all duration-300`}></div>
+                  <div className={`w-full h-full bg-slate-200 rounded-full ${speaking ? 'animate-pulse scale-150' : ''} transition-all duration-300`}></div>
                   <div className="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_10px_white]"></div>
                 </div>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white">Autonomous AI Recruiter</h3>
+                <h3 className="text-sm font-bold text-slate-800">Autonomous AI Recruiter</h3>
                 <p className="text-[10px] text-emerald-400 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   Online
                 </p>
               </div>
             </div>
-            <button onClick={toggleAvatar} className="text-gray-400 hover:text-white relative z-10">
+            <button onClick={toggleAvatar} className="text-slate-500 hover:text-slate-800 relative z-10">
               <FiX size={20} />
             </button>
           </div>
 
           {/* Dialogue Area */}
-          <div className="flex-1 overflow-y-auto p-4 bg-black/40 space-y-4 max-h-[350px] scrollbar-hide">
+          <div className="flex-1 overflow-y-auto p-4 bg-slate-50 space-y-4 max-h-[350px] scrollbar-hide">
             {messages.map((m, i) => (
               <div key={i} className={`flex gap-3 animate-fade-in-up ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold ${m.role === 'ai' ? 'bg-violet-600 shadow-[0_0_10px_rgba(139,92,246,0.5)]' : 'bg-fuchsia-600 shadow-[0_0_10px_rgba(217,70,239,0.5)]'}`}>
                   {m.role === 'ai' ? 'AI' : 'YOU'}
                 </div>
-                <div className={`p-3 rounded-2xl text-sm text-white shadow-lg max-w-[80%] ${
+                <div className={`p-3 rounded-2xl text-sm text-slate-800 shadow-lg max-w-[80%] ${
                   m.role === 'ai' 
-                    ? 'bg-white/10 border border-white/5 rounded-tl-sm' 
-                    : 'bg-violet-600/40 border border-white/10 rounded-tr-sm'
+                    ? 'bg-slate-100 border border-slate-200 rounded-tl-sm' 
+                    : 'bg-violet-600/40 border border-slate-200 rounded-tr-sm'
                 }`}>
                   {m.text}
                 </div>
@@ -208,11 +208,11 @@ const AIAvatar = ({ placement_probability, missing_skills, result }) => {
             {isTyping && (
               <div className="flex gap-3 animate-pulse">
                 <div className="w-8 h-8 rounded-full bg-violet-600/20 flex-shrink-0 flex items-center justify-center text-[10px]">...</div>
-                <div className="bg-white/5 border border-white/5 p-3 rounded-2xl rounded-tl-sm">
+                <div className="bg-slate-50 border border-slate-200 p-3 rounded-2xl rounded-tl-sm">
                   <div className="flex gap-1">
-                    <div className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce"></div>
-                    <div className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce delay-75"></div>
-                    <div className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce delay-150"></div>
+                    <div className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"></div>
+                    <div className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce delay-75"></div>
+                    <div className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce delay-150"></div>
                   </div>
                 </div>
               </div>
@@ -220,11 +220,11 @@ const AIAvatar = ({ placement_probability, missing_skills, result }) => {
           </div>
 
           {/* Chat Input */}
-          <form onSubmit={handleSendMessage} className="p-3 bg-white/5 border-t border-white/10 flex gap-2">
+          <form onSubmit={handleSendMessage} className="p-3 bg-slate-50 border-t border-slate-200 flex gap-2">
             <button 
               type="button"
               onClick={startListening}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isListening ? 'bg-red-500 animate-pulse' : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'}`}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isListening ? 'bg-red-500 animate-pulse' : 'bg-slate-50 text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
             >
               {isListening ? <FiMicOff size={18} /> : <FiMic size={18} />}
             </button>
@@ -233,11 +233,11 @@ const AIAvatar = ({ placement_probability, missing_skills, result }) => {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder={isListening ? "Listening..." : "Ask Tony about your CV..."}
-              className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-violet-500/50 transition-colors"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-800 focus:outline-none focus:border-violet-500/50 transition-colors"
             />
             <button 
               type="submit"
-              className="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center text-white hover:bg-violet-500 transition-colors shadow-lg shadow-violet-600/20"
+              className="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center text-slate-800 hover:bg-violet-500 transition-colors shadow-lg shadow-violet-600/20"
             >
               <FiSend size={16} />
             </button>

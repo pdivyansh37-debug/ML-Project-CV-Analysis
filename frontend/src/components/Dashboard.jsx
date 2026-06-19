@@ -175,18 +175,18 @@ const generateWeeklyRoutine = (skillPlan) => {
 const SettingsModal = ({ metrics, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
       <div
         className="relative w-full max-w-lg rounded-2xl p-8 animate-fade-in-up"
-        style={{ background: '#111420', border: '1px solid rgba(255,255,255,0.08)' }}
+        style={{ background: '#111420', border: '1px solid rgba(226,232,240,1)' }}
         onClick={e => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white transition">
+        <button onClick={onClose} className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 transition">
           <FiX size={20} />
         </button>
 
-        <h2 className="text-xl font-bold text-white mb-1">Model Configuration</h2>
-        <p className="text-gray-500 text-xs mb-6">Technical details of the ML pipeline</p>
+        <h2 className="text-xl font-bold text-slate-800 mb-1">Model Configuration</h2>
+        <p className="text-slate-500 text-xs mb-6">Technical details of the ML pipeline</p>
 
         <div className="space-y-4">
           {[
@@ -197,13 +197,13 @@ const SettingsModal = ({ metrics, onClose }) => {
             { icon: <FiZap />, label: 'NLP Engine', value: 'spaCy en_core_web_sm', color: '#ec4899' },
             { icon: <FiBarChart2 />, label: 'Feature Vectors', value: 'CGPA + Skill Match + Company Encoding', color: '#06b6d4' },
           ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <div key={i} className="flex items-center gap-4 p-3 rounded-xl" style={{ background: 'rgba(248,250,252,1)', border: '1px solid rgba(226,232,240,1)' }}>
               <div className="p-2 rounded-lg" style={{ background: `${item.color}15`, color: item.color }}>
                 {item.icon}
               </div>
               <div className="flex-1">
-                <div className="text-gray-500 text-[10px] uppercase tracking-wider font-bold">{item.label}</div>
-                <div className="text-white text-sm font-semibold">{item.value}</div>
+                <div className="text-slate-500 text-[10px] uppercase tracking-wider font-bold">{item.label}</div>
+                <div className="text-slate-800 text-sm font-semibold">{item.value}</div>
               </div>
             </div>
           ))}
@@ -218,8 +218,8 @@ const SettingsModal = ({ metrics, onClose }) => {
               { label: 'Recall', value: (metrics.recall * 100).toFixed(1) + '%' },
             ].map((m, i) => (
               <div key={i} className="text-center p-3 rounded-xl" style={{ background: 'rgba(139, 92, 246, 0.08)', border: '1px solid rgba(139, 92, 246, 0.12)' }}>
-                <div className="text-lg font-black text-white">{m.value}</div>
-                <div className="text-gray-500 text-[10px] uppercase tracking-wider">{m.label}</div>
+                <div className="text-lg font-black text-slate-800">{m.value}</div>
+                <div className="text-slate-500 text-[10px] uppercase tracking-wider">{m.label}</div>
               </div>
             ))}
           </div>
@@ -485,7 +485,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280' } },
+      x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#6b7280' } },
       y: { grid: { display: false }, ticks: { color: '#d1d5db' } }
     },
     plugins: { legend: { display: false } }
@@ -517,7 +517,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
       <AIAvatar placement_probability={placement_probability} missing_skills={missing_skills} result={result} />
 
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <button onClick={onBack} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:text-white transition-all bg-white/5 border border-white/10 group">
+        <button onClick={onBack} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:text-slate-800 transition-all bg-slate-50 border border-slate-200 group">
           <FiArrowLeft className="group-hover:-translate-x-1" size={16} /> Back to Dashboard
         </button>
         <div className="flex gap-2">
@@ -533,8 +533,8 @@ const Dashboard = ({ result, metrics, onBack }) => {
       <div className="flex flex-col lg:flex-row gap-8">
         
         {/* Sleek Vertical Left-hand Sidebar Navigation Menu (AWS/Microsoft style) */}
-        <div className="w-full lg:w-64 shrink-0 flex flex-col gap-1 p-2 rounded-2xl bg-white/[0.02] border border-white/5 h-fit lg:sticky lg:top-6">
-          <div className="px-3 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-white/5 mb-2">Report Sections</div>
+        <div className="w-full lg:w-64 shrink-0 flex flex-col gap-1 p-2 rounded-2xl bg-slate-50/50 border border-slate-200 h-fit lg:sticky lg:top-6">
+          <div className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-200 mb-2">Report Sections</div>
           {[
             { id: 'overview', icon: <FiBarChart2 size={16} />, label: 'Overview' },
             { id: 'bert', icon: <FiCpu size={16} />, label: 'AI Match Details', badge: hasBertData },
@@ -556,10 +556,10 @@ const Dashboard = ({ result, metrics, onBack }) => {
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all relative text-left w-full border ${
                 activeTab === tab.id 
                 ? 'bg-violet-600/15 text-violet-400 border-violet-500/20 shadow-[0_0_15px_rgba(139,92,246,0.1)]' 
-                : 'text-gray-400 border-transparent hover:text-white hover:bg-white/5'
+                : 'text-slate-500 border-transparent hover:text-slate-800 hover:bg-slate-50'
               }`}
             >
-              <span className={activeTab === tab.id ? 'text-violet-400' : 'text-gray-400'}>{tab.icon}</span>
+              <span className={activeTab === tab.id ? 'text-violet-400' : 'text-slate-500'}>{tab.icon}</span>
               <span className="flex-1 truncate">{tab.label}</span>
               {tab.badge && (
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
@@ -574,7 +574,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
         {activeTab === 'overview' && (
           <>
             <div className="glass-card p-8 flex flex-col items-center justify-center col-span-1">
-              <h3 className="text-lg font-bold text-white mb-6">Placement Probability</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6">Placement Probability</h3>
               <div className="relative w-56 h-28">
                 <Doughnut data={gaugeData} options={gaugeOptions} />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-2 text-center text-3xl font-black" style={{ color: statusColor }}>{placement_probability}%</div>
@@ -583,7 +583,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
             </div>
 
             <div className="glass-card p-8 col-span-1">
-               <h3 className="text-lg font-bold text-white mb-6">Comparison Metrics</h3>
+               <h3 className="text-lg font-bold text-slate-800 mb-6">Comparison Metrics</h3>
                <div className="space-y-4">
                  {[
                    { label: 'Skill Match', value: skill_match_pct, color: '#8b5cf6' },
@@ -591,11 +591,11 @@ const Dashboard = ({ result, metrics, onBack }) => {
                    { label: 'Top Candidate', value: 92, color: '#10b981' }
                  ].map(m => (
                    <div key={m.label}>
-                     <div className="flex justify-between text-xs text-gray-400 mb-1">
+                     <div className="flex justify-between text-xs text-slate-500 mb-1">
                        <span>{m.label}</span>
                        <span style={{ color: m.color }}>{m.value}%</span>
                      </div>
-                     <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                     <div className="h-1.5 bg-slate-50 rounded-full overflow-hidden">
                        <div className="h-full transition-all duration-1000" style={{ width: `${m.value}%`, background: m.color }} />
                      </div>
                    </div>
@@ -604,14 +604,14 @@ const Dashboard = ({ result, metrics, onBack }) => {
             </div>
 
             <div className="glass-card p-8 lg:col-span-2">
-              <h3 className="text-lg font-bold text-white mb-6">Why Your Score is {placement_probability}%</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6">Why Your Score is {placement_probability}%</h3>
               <div className="space-y-3">
                 {reasons.map((r, i) => (
                   <div key={i} className="p-4 rounded-xl flex gap-4" style={{ background: impactColors[r.impact].bg, border: `1px solid ${impactColors[r.impact].border}` }}>
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xs" style={{ background: impactColors[r.impact].border, color: impactColors[r.impact].text }}>{r.pct}%</div>
                     <div className="flex-1">
                       <div className="font-bold text-sm" style={{ color: impactColors[r.impact].text }}>{r.factor} ({r.impact} Impact)</div>
-                      <p className="text-gray-400 text-xs mt-1">{r.detail}</p>
+                      <p className="text-slate-500 text-xs mt-1">{r.detail}</p>
                     </div>
                   </div>
                 ))}
@@ -619,11 +619,11 @@ const Dashboard = ({ result, metrics, onBack }) => {
             </div>
             {/* ── Industry Benchmark Comparison ── */}
             <div className="glass-card p-8 lg:col-span-2">
-              <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: '1px solid rgba(226,232,240,1)' }}>
                 <div className="p-2.5 rounded-xl" style={{ background: 'rgba(6,182,212,0.12)' }}><FiUsers className="text-cyan-400" size={20} /></div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Industry Benchmark Comparison</h3>
-                  <p className="text-gray-500 text-xs mt-0.5">Your profile vs 10,000 analyzed candidates</p>
+                  <h3 className="text-lg font-bold text-slate-800">Industry Benchmark Comparison</h3>
+                  <p className="text-slate-500 text-xs mt-0.5">Your profile vs 10,000 analyzed candidates</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -633,8 +633,8 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   { label: 'Top Candidate Match', value: '92%', diff: Math.round(skill_match_pct - 92), bench: 'Industry Best' },
                 ].map((item, i) => (
                   <div key={i} className="stat-card text-center">
-                    <div className="text-2xl font-black text-white mb-1">{item.value}</div>
-                    <div className="text-gray-500 text-[10px] uppercase tracking-wider mb-2">{item.label}</div>
+                    <div className="text-2xl font-black text-slate-800 mb-1">{item.value}</div>
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wider mb-2">{item.label}</div>
                     <div className={`text-xs font-bold ${item.diff >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {item.diff >= 0 ? '↑' : '↓'} {Math.abs(item.diff)}% vs avg ({item.bench})
                     </div>
@@ -650,7 +650,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
                       { label: 'Industry Average', data: [78, 72, 70, 68, 65], backgroundColor: 'rgba(6,182,212,0.1)', borderColor: '#06b6d4', pointBackgroundColor: '#0891b2', borderWidth: 2, borderDash: [5,5] },
                     ]
                   }}
-                  options={{ scales: { r: { angleLines: { color: 'rgba(255,255,255,0.06)' }, grid: { color: 'rgba(255,255,255,0.06)' }, pointLabels: { color: '#6b7280', font: { size: 11 } }, ticks: { display: false } } }, plugins: { legend: { labels: { color: '#9ca3af', usePointStyle: true } } }, maintainAspectRatio: false }}
+                  options={{ scales: { r: { angleLines: { color: 'rgba(226,232,240,1)' }, grid: { color: 'rgba(226,232,240,1)' }, pointLabels: { color: '#6b7280', font: { size: 11 } }, ticks: { display: false } } }, plugins: { legend: { labels: { color: '#9ca3af', usePointStyle: true } } }, maintainAspectRatio: false }}
                 />
               </div>
             </div>
@@ -660,12 +660,12 @@ const Dashboard = ({ result, metrics, onBack }) => {
         {activeTab === 'verification' && (
           <div className="lg:col-span-2 space-y-6">
             <div className="glass-card p-8">
-              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><FiShield className="text-blue-400"/> CV Trust Index</h3>
-              <div className="h-4 bg-white/5 rounded-full overflow-hidden flex mb-2">
+              <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><FiShield className="text-blue-400"/> CV Trust Index</h3>
+              <div className="h-4 bg-slate-50 rounded-full overflow-hidden flex mb-2">
                 <div className="h-full bg-emerald-500" style={{ width: '82%' }} />
                 <div className="h-full bg-yellow-500/50" style={{ width: '18%' }} />
               </div>
-              <div className="flex justify-between text-xs text-gray-500 font-bold uppercase tracking-wider">
+              <div className="flex justify-between text-xs text-slate-500 font-bold uppercase tracking-wider">
                 <span className="text-emerald-400">82% Verified</span>
                 <span className="text-yellow-400">18% Pending</span>
               </div>
@@ -673,10 +673,10 @@ const Dashboard = ({ result, metrics, onBack }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="glass-card p-6">
-                <h4 className="text-white font-bold mb-4 flex items-center gap-2"><FiGithub /> GitHub Scanner</h4>
+                <h4 className="text-slate-800 font-bold mb-4 flex items-center gap-2"><FiGithub /> GitHub Scanner</h4>
                 <div className="space-y-3">
                   {github_analysis?.map((a, i) => (
-                    <div key={i} className="p-3 rounded-lg border border-white/5 bg-white/5 flex gap-3">
+                    <div key={i} className="p-3 rounded-lg border border-slate-200 bg-slate-50 flex gap-3">
                        {a.severity === 'High' ? (
                          <FiAlertTriangle className="text-red-400 shrink-0" size={16} />
                        ) : a.severity === 'Medium' ? (
@@ -685,16 +685,16 @@ const Dashboard = ({ result, metrics, onBack }) => {
                          <FiCheckCircle className="text-blue-400 shrink-0" size={16} />
                        )}
                        <div>
-                         <p className="text-xs font-bold text-white">{a.issue}</p>
-                         <p className="text-[10px] text-gray-400 mt-0.5">{a.detail}</p>
+                         <p className="text-xs font-bold text-slate-800">{a.issue}</p>
+                         <p className="text-[10px] text-slate-500 mt-0.5">{a.detail}</p>
                        </div>
                     </div>
                   ))}
                 </div>
               </div>
               <div className="glass-card p-6">
-                <h4 className="text-white font-bold mb-4 flex items-center gap-2"><FiGlobe className="text-blue-500"/> LinkedIn Audit</h4>
-                <div className="space-y-3 text-xs text-gray-400">
+                <h4 className="text-slate-800 font-bold mb-4 flex items-center gap-2"><FiGlobe className="text-blue-500"/> LinkedIn Audit</h4>
+                <div className="space-y-3 text-xs text-slate-500">
                   <div className="flex gap-2 items-center"><FiCheckCircle className="text-emerald-400"/> Role Matching: 100% Correct</div>
                   <div className="flex gap-2 items-center"><FiCheckCircle className="text-emerald-400"/> Skill Endorsements Found</div>
                   <div className="flex gap-2 items-center"><FiAlertTriangle className="text-yellow-400"/> Low activity detected</div>
@@ -710,28 +710,28 @@ const Dashboard = ({ result, metrics, onBack }) => {
             {/* ── Score Boost Banner ── */}
             <div className="glass-card p-6 flex items-center justify-between" style={{ background: 'linear-gradient(135deg,rgba(139,92,246,0.12),rgba(16,185,129,0.08))', border: '1px solid rgba(139,92,246,0.2)' }}>
               <div>
-                <h3 className="text-lg font-bold text-white">Adaptive Learning Roadmap</h3>
-                <p className="text-xs text-gray-400 mt-1">Tick a skill when you learn it — your score updates instantly</p>
+                <h3 className="text-lg font-bold text-slate-800">Adaptive Learning Roadmap</h3>
+                <p className="text-xs text-slate-500 mt-1">Tick a skill when you learn it — your score updates instantly</p>
               </div>
               <div className="text-right">
                 <div className="text-3xl font-black text-emerald-400">+{Math.round(projectedScore - placement_probability)}%</div>
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Projected Boost</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Projected Boost</p>
               </div>
             </div>
 
             {/* ── Skill Checkboxes ── */}
             <div className="glass-card p-8">
-              <h4 className="text-white font-bold mb-4 flex items-center gap-2"><FiAward className="text-violet-400" /> Skills to Learn</h4>
+              <h4 className="text-slate-800 font-bold mb-4 flex items-center gap-2"><FiAward className="text-violet-400" /> Skills to Learn</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                 {missing_skills.map(s => (
                   <button key={s} onClick={() => toggleLearnedSkill(s)}
-                    className={`p-4 rounded-xl flex items-center gap-3 transition-all border text-left ${learnedSkills.includes(s) ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-white/5 border-white/10 hover:border-violet-500/40'}`}>
-                    <div className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center ${learnedSkills.includes(s) ? 'bg-emerald-500' : 'bg-white/10'}`}>
-                      {learnedSkills.includes(s) && <FiCheckCircle size={12} className="text-white" />}
+                    className={`p-4 rounded-xl flex items-center gap-3 transition-all border text-left ${learnedSkills.includes(s) ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-slate-50 border-slate-200 hover:border-violet-500/40'}`}>
+                    <div className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center ${learnedSkills.includes(s) ? 'bg-emerald-500' : 'bg-slate-100'}`}>
+                      {learnedSkills.includes(s) && <FiCheckCircle size={12} className="text-slate-800" />}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className={`font-semibold text-sm ${learnedSkills.includes(s) ? 'text-emerald-300 line-through' : 'text-white'}`}>{s}</span>
-                      <span className="text-gray-600 text-xs ml-2">{skillPlan.find(p => p.skill === s)?.hours || 20}h</span>
+                      <span className={`font-semibold text-sm ${learnedSkills.includes(s) ? 'text-emerald-300 line-through' : 'text-slate-800'}`}>{s}</span>
+                      <span className="text-slate-400 text-xs ml-2">{skillPlan.find(p => p.skill === s)?.hours || 20}h</span>
                     </div>
                     {learnedSkills.includes(s) && <span className="text-emerald-400 text-xs font-bold flex-shrink-0">Done ✓</span>}
                   </button>
@@ -739,11 +739,11 @@ const Dashboard = ({ result, metrics, onBack }) => {
               </div>
 
               {/* Progress bar */}
-              <div className="mb-2 flex justify-between text-xs text-gray-400">
+              <div className="mb-2 flex justify-between text-xs text-slate-500">
                 <span>Learning Progress</span>
                 <span className="text-emerald-400 font-bold">{missing_skills.length > 0 ? Math.round((learnedCount / missing_skills.length) * 100) : 0}%</span>
               </div>
-              <div className="h-2 rounded-full overflow-hidden bg-white/5">
+              <div className="h-2 rounded-full overflow-hidden bg-slate-50">
                 <div className="h-full rounded-full bg-gradient-to-r from-violet-500 to-emerald-500 transition-all duration-500"
                   style={{ width: `${missing_skills.length > 0 ? (learnedCount / missing_skills.length) * 100 : 0}%` }} />
               </div>
@@ -752,8 +752,8 @@ const Dashboard = ({ result, metrics, onBack }) => {
             {/* ── Bar Chart ── */}
             {skillPlan.length > 0 && (
               <div className="glass-card p-8">
-                <h4 className="text-white font-bold mb-4 flex items-center gap-2"><FiBarChart2 className="text-yellow-400" /> Skill Improvement Roadmap</h4>
-                <p className="text-gray-500 text-xs mb-6">Prioritized skills with estimated learning hours and resources</p>
+                <h4 className="text-slate-800 font-bold mb-4 flex items-center gap-2"><FiBarChart2 className="text-yellow-400" /> Skill Improvement Roadmap</h4>
+                <p className="text-slate-500 text-xs mb-6">Prioritized skills with estimated learning hours and resources</p>
                 <div style={{ height: `${Math.max(180, skillPlan.length * 56)}px` }}>
                   <Bar data={barData} options={barOptions} />
                 </div>
@@ -763,27 +763,27 @@ const Dashboard = ({ result, metrics, onBack }) => {
             {/* ── Course Cards with Links ── */}
             {skillPlan.length > 0 && (
               <div className="glass-card p-8">
-                <h4 className="text-white font-bold mb-6 flex items-center gap-2"><FiBookOpen className="text-violet-400" /> Course Resources & Links</h4>
+                <h4 className="text-slate-800 font-bold mb-6 flex items-center gap-2"><FiBookOpen className="text-violet-400" /> Course Resources & Links</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {skillPlan.map((s, i) => (
                     <div key={i} className="p-4 rounded-xl transition-all hover:scale-[1.01]"
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      style={{ background: 'rgba(248,250,252,1)', border: '1px solid rgba(255,255,255,0.07)' }}>
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-black flex-shrink-0"
                           style={{ background: 'rgba(139,92,246,0.15)', color: '#a78bfa' }}>#{i + 1}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-bold text-white text-sm">{s.skill}</span>
+                            <span className="font-bold text-slate-800 text-sm">{s.skill}</span>
                             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold"
                               style={{ background: `${difficultyColors[s.difficulty]}18`, color: difficultyColors[s.difficulty], border: `1px solid ${difficultyColors[s.difficulty]}30` }}>
                               {s.difficulty}
                             </span>
                           </div>
-                          <p className="text-gray-500 text-xs mt-0.5 truncate">{s.resource}</p>
+                          <p className="text-slate-500 text-xs mt-0.5 truncate">{s.resource}</p>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <div className="text-lg font-black text-white">{s.hours}h</div>
-                          <div className="text-gray-600 text-[10px]">est.</div>
+                          <div className="text-lg font-black text-slate-800">{s.hours}h</div>
+                          <div className="text-slate-400 text-[10px]">est.</div>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -801,7 +801,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
                 <div className="mt-5 p-4 rounded-xl flex items-center justify-between"
                   style={{ background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.15)' }}>
                   <div className="flex items-center gap-2 text-violet-300 text-sm font-semibold">
-                    <FiClock size={16} /> Total time: <span className="text-white font-black">{totalUpskillHours} hours</span>
+                    <FiClock size={16} /> Total time: <span className="text-slate-800 font-black">{totalUpskillHours} hours</span>
                   </div>
                   <div className="text-violet-400 text-xs">~{Math.ceil(totalUpskillHours / 10)} weeks at 2h/day</div>
                 </div>
@@ -811,7 +811,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
             {/* ── Weekly Study Routine ── */}
             {weeklyRoutine.length > 0 && (
               <div className="glass-card p-8">
-                <h4 className="text-white font-bold mb-6 flex items-center gap-2"><FiCalendar className="text-blue-400" /> Weekly Study Routine</h4>
+                <h4 className="text-slate-800 font-bold mb-6 flex items-center gap-2"><FiCalendar className="text-blue-400" /> Weekly Study Routine</h4>
                 <div className="relative">
                   <div className="absolute left-5 top-0 bottom-0 w-px bg-blue-500/20" />
                   <div className="space-y-5">
@@ -822,24 +822,24 @@ const Dashboard = ({ result, metrics, onBack }) => {
                           <div className="w-2 h-2 rounded-full bg-blue-400" />
                         </div>
                         <div className="p-5 rounded-xl hover:scale-[1.005] transition-all"
-                          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          style={{ background: 'rgba(248,250,252,1)', border: '1px solid rgba(226,232,240,1)' }}>
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
                               <span className="px-3 py-1 rounded-lg text-xs font-bold text-blue-300 bg-blue-500/15">Week {week.week}</span>
-                              <span className="text-gray-400 text-xs">Focus: <span className="text-white font-semibold">{week.focus.join(' & ')}</span></span>
+                              <span className="text-slate-500 text-xs">Focus: <span className="text-slate-800 font-semibold">{week.focus.join(' & ')}</span></span>
                             </div>
-                            <span className="text-gray-500 text-xs flex items-center gap-1"><FiClock size={11} /> {week.dailyHours}h/day</span>
+                            <span className="text-slate-500 text-xs flex items-center gap-1"><FiClock size={11} /> {week.dailyHours}h/day</span>
                           </div>
                           <div className="space-y-1.5 mb-3">
                             {week.tasks.map((task, j) => (
                               <div key={j} className="flex items-center gap-3 text-sm">
                                 <div className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
-                                <span className="text-gray-300 flex-1">{task.task}</span>
-                                <span className="text-gray-600 text-xs">{task.hours}h</span>
+                                <span className="text-slate-600 flex-1">{task.task}</span>
+                                <span className="text-slate-400 text-xs">{task.hours}h</span>
                               </div>
                             ))}
                           </div>
-                          <div className="flex items-center gap-2 text-xs pt-3 border-t border-white/5">
+                          <div className="flex items-center gap-2 text-xs pt-3 border-t border-slate-200">
                             <FiStar className="text-yellow-400" size={11} />
                             <span className="text-yellow-200/80">Milestone: {week.milestone}</span>
                           </div>
@@ -851,7 +851,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
                 <div className="mt-6 p-5 rounded-xl text-center"
                   style={{ background: 'linear-gradient(135deg,rgba(16,185,129,0.08),rgba(59,130,246,0.08))', border: '1px solid rgba(16,185,129,0.15)' }}>
                   <div className="text-emerald-400 text-sm font-bold mb-1">🎯 End Goal</div>
-                  <p className="text-gray-300 text-sm">After completing this plan, your estimated placement probability will increase to <span className="text-white font-black">{targetScore}%</span></p>
+                  <p className="text-slate-600 text-sm">After completing this plan, your estimated placement probability will increase to <span className="text-slate-800 font-black">{targetScore}%</span></p>
                 </div>
               </div>
             )}
@@ -863,14 +863,14 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiDownload className="text-emerald-400" size={20} />
                 </div>
                 <div>
-                  <h3 className="text-white font-bold">Download Your Full Plan</h3>
-                  <p className="text-xs text-gray-500 mt-0.5">Complete roadmap with weekly schedule + all clickable links as PDF</p>
+                  <h3 className="text-slate-800 font-bold">Download Your Full Plan</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">Complete roadmap with weekly schedule + all clickable links as PDF</p>
                 </div>
               </div>
               <button
                 onClick={handleDownloadPDF}
                 disabled={isDownloading}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white transition-all hover:scale-105 active:scale-100 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-slate-800 transition-all hover:scale-105 active:scale-100 disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{ background: isDownloading ? '#374151' : 'linear-gradient(135deg,#10b981,#059669)', boxShadow: isDownloading ? 'none' : '0 4px 20px rgba(16,185,129,0.3)' }}>
                 {isDownloading ? (
                   <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Generating...</>
@@ -888,10 +888,10 @@ const Dashboard = ({ result, metrics, onBack }) => {
 
             {/* ML Evaluation Matrix */}
             <div className="glass-card p-8">
-              <div className="flex items-center justify-between mb-8 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <div className="flex items-center justify-between mb-8 pb-4" style={{ borderBottom: '1px solid rgba(226,232,240,1)' }}>
                 <div>
                   <h3 className="text-xl font-bold" style={{ background: 'linear-gradient(90deg,#f59e0b,#ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Machine Learning Evaluation</h3>
-                  <p className="text-gray-600 text-xs mt-1">Cross-validated metrics • RandomForestClassifier • 10,000 samples</p>
+                  <p className="text-slate-400 text-xs mt-1">Cross-validated metrics • RandomForestClassifier • 10,000 samples</p>
                 </div>
                 <button onClick={() => setShowSettings(true)} className="p-2.5 rounded-xl text-violet-400 hover:text-violet-300 transition-colors" style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)' }} title="View Model Config">
                   <FiSettings size={18} />
@@ -908,9 +908,9 @@ const Dashboard = ({ result, metrics, onBack }) => {
                     ].map((m, i) => (
                       <div key={i} className="stat-card text-center group">
                         <div className="text-2xl mb-3 flex justify-center" style={{ color: m.color }}>{m.icon}</div>
-                        <div className="text-3xl font-black text-white">{(m.value * 100).toFixed(1)}%</div>
-                        <div className="text-gray-400 font-semibold text-xs uppercase mt-1 tracking-wider">{m.label}</div>
-                        <div className="text-gray-600 text-[10px] mt-2">{m.desc}</div>
+                        <div className="text-3xl font-black text-slate-800">{(m.value * 100).toFixed(1)}%</div>
+                        <div className="text-slate-500 font-semibold text-xs uppercase mt-1 tracking-wider">{m.label}</div>
+                        <div className="text-slate-400 text-[10px] mt-2">{m.desc}</div>
                       </div>
                     ))}
                   </div>
@@ -923,27 +923,27 @@ const Dashboard = ({ result, metrics, onBack }) => {
                     ].map(m => (
                       <div key={m.label}>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-gray-400">{m.label}</span>
+                          <span className="text-slate-500">{m.label}</span>
                           <span style={{ color: m.color }}>{(m.value * 100).toFixed(1)}%</span>
                         </div>
-                        <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+                        <div className="h-2 rounded-full bg-slate-50 overflow-hidden">
                           <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${m.value * 100}%`, background: m.color }} />
                         </div>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-6 p-4 rounded-xl" style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                    <p className="text-gray-600 text-xs italic">* Metrics from 80-20 train-test split on 10,000 synthetic profiles. Click ⚙ above for full model configuration.</p>
+                  <div className="mt-6 p-4 rounded-xl" style={{ background: 'rgba(248,250,252,1)', border: '1px solid rgba(0,0,0,0.04)' }}>
+                    <p className="text-slate-400 text-xs italic">* Metrics from 80-20 train-test split on 10,000 synthetic profiles. Click ⚙ above for full model configuration.</p>
                   </div>
                 </>
               ) : (
-                <div className="text-center py-12 text-gray-500">Run a CV analysis to see model evaluation metrics.</div>
+                <div className="text-center py-12 text-slate-500">Run a CV analysis to see model evaluation metrics.</div>
               )}
             </div>
 
             {/* ATS Score */}
             <div className="glass-card p-8">
-              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><FiActivity className="text-emerald-400" /> ATS Compatibility Score</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2"><FiActivity className="text-emerald-400" /> ATS Compatibility Score</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                   { label: 'Keyword Density', score: Math.min(100, Math.round(skill_match_pct * 1.1)), color: '#8b5cf6' },
@@ -951,16 +951,16 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   { label: 'Readability', score: 85, color: '#10b981' },
                   { label: 'Section Structure', score: 72, color: '#f59e0b' },
                 ].map((item, i) => (
-                  <div key={i} className="text-center p-5 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                  <div key={i} className="text-center p-5 rounded-xl" style={{ background: 'rgba(248,250,252,1)', border: '1px solid rgba(255,255,255,0.07)' }}>
                     <div className="relative w-16 h-16 mx-auto mb-3">
                       <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3" />
+                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(226,232,240,1)" strokeWidth="3" />
                         <circle cx="18" cy="18" r="15.9" fill="none" stroke={item.color} strokeWidth="3"
                           strokeDasharray={`${item.score} 100`} strokeLinecap="round" />
                       </svg>
-                      <div className="absolute inset-0 flex items-center justify-center text-sm font-black text-white">{item.score}</div>
+                      <div className="absolute inset-0 flex items-center justify-center text-sm font-black text-slate-800">{item.score}</div>
                     </div>
-                    <div className="text-gray-500 text-[10px] uppercase tracking-wider font-bold">{item.label}</div>
+                    <div className="text-slate-500 text-[10px] uppercase tracking-wider font-bold">{item.label}</div>
                   </div>
                 ))}
               </div>
@@ -972,11 +972,11 @@ const Dashboard = ({ result, metrics, onBack }) => {
         {activeTab === 'insights' && (
           <div className="lg:col-span-2 space-y-6">
             <div className="glass-card p-8">
-              <h3 className="text-lg font-bold text-white mb-6">CV Keyword Heatmap</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6">CV Keyword Heatmap</h3>
               <ResumeHeatmap cvText={result.cv_text} matchedSkills={matched_skills} missingSkills={missing_skills} />
             </div>
             <div className="glass-card p-8 min-h-[500px] h-auto">
-              <h3 className="text-lg font-bold text-white mb-6">Career Path Network</h3>
+              <h3 className="text-lg font-bold text-slate-800 mb-6">Career Path Network</h3>
               <CareerPathTree matchedSkills={matched_skills} />
             </div>
           </div>
@@ -990,32 +990,32 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiBriefcase size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Hiring Analysis</h3>
-                  <p className="text-sm text-gray-400 mt-1">Based on category: <span className="text-emerald-400 font-semibold">{hiring_analysis.experience_category}</span></p>
+                  <h3 className="text-xl font-bold text-slate-800">Hiring Analysis</h3>
+                  <p className="text-sm text-slate-500 mt-1">Based on category: <span className="text-emerald-400 font-semibold">{hiring_analysis.experience_category}</span></p>
                 </div>
               </div>
 
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6 justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center gap-6 justify-between">
                  <div>
-                    <h4 className="text-gray-400 text-sm mb-1 uppercase tracking-wider font-bold">Best Fit Role</h4>
-                    <div className="text-3xl font-black text-white bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
+                    <h4 className="text-slate-500 text-sm mb-1 uppercase tracking-wider font-bold">Best Fit Role</h4>
+                    <div className="text-3xl font-black text-slate-800 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
                       {hiring_analysis.best_fit_role}
                     </div>
                  </div>
                  <div className="text-right">
                     <div className="text-5xl font-black text-emerald-400">{hiring_analysis.best_fit_chance}%</div>
-                    <div className="text-xs text-gray-500 uppercase tracking-widest font-bold mt-1">Match Probability</div>
+                    <div className="text-xs text-slate-500 uppercase tracking-widest font-bold mt-1">Match Probability</div>
                  </div>
               </div>
 
-              <h4 className="text-white font-bold mb-4">Job Role Alignment Details</h4>
+              <h4 className="text-slate-800 font-bold mb-4">Job Role Alignment Details</h4>
               <div className="space-y-4">
                 {hiring_analysis.job_analysis.map((job, idx) => (
-                  <div key={idx} className="bg-black/40 border border-white/10 rounded-xl p-5 hover:bg-white/5 transition-colors">
+                  <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:bg-slate-50 transition-colors">
                     <div className="flex flex-col md:flex-row justify-between mb-4 gap-4">
                        <div className="flex-1">
                          <div className="flex items-center gap-3 mb-2">
-                           <h5 className="text-lg font-bold text-white">{job.role}</h5>
+                           <h5 className="text-lg font-bold text-slate-800">{job.role}</h5>
                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
                              ${job.recommendation === 'Highly Recommended' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 
                                job.recommendation === 'Good Fit' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
@@ -1026,7 +1026,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
                              {job.recommendation}
                            </span>
                          </div>
-                         <div className="flex gap-4 text-xs text-gray-400">
+                         <div className="flex gap-4 text-xs text-slate-500">
                            <div className="flex items-center gap-1.5"><FiTarget className="text-violet-400"/> Skill Match: {job.skill_match}%</div>
                            <div className="flex items-center gap-1.5"><FiUsers className="text-orange-400"/> Experience Fit: {job.experience_fit}%</div>
                          </div>
@@ -1034,12 +1034,12 @@ const Dashboard = ({ result, metrics, onBack }) => {
                        
                        <div className="w-full md:w-48 text-right">
                          <div className="flex justify-between items-end mb-1 text-xs">
-                           <span className="text-gray-500 uppercase tracking-wider font-bold">Hiring Chance</span>
+                           <span className="text-slate-500 uppercase tracking-wider font-bold">Hiring Chance</span>
                            <span className="text-xl font-black" style={{ color: job.hiring_chance > 70 ? '#10b981' : job.hiring_chance > 40 ? '#f59e0b' : '#ef4444' }}>
                              {job.hiring_chance}%
                            </span>
                          </div>
-                         <div className="h-2.5 bg-white/5 rounded-full overflow-hidden w-full">
+                         <div className="h-2.5 bg-slate-50 rounded-full overflow-hidden w-full">
                            <div className="h-full rounded-full transition-all duration-1000" 
                                 style={{ 
                                   width: `${job.hiring_chance}%`, 
@@ -1050,7 +1050,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
                        </div>
                     </div>
                     
-                    <div className="pt-3 border-t border-white/5 flex flex-wrap gap-x-6 gap-y-2 text-xs">
+                    <div className="pt-3 border-t border-slate-200 flex flex-wrap gap-x-6 gap-y-2 text-xs">
                       {job.matched_skills.length > 0 && (
                         <div>
                           <strong className="text-emerald-400 mb-1 block">Matched Skills</strong>
@@ -1063,8 +1063,8 @@ const Dashboard = ({ result, metrics, onBack }) => {
                         <div>
                            <strong className="text-red-400 flex items-center gap-1 mb-1"><FiTrendingUp size={12}/> Needs Improvement</strong>
                            <div className="flex flex-wrap gap-1.5">
-                            {job.missing_skills.slice(0, 5).map(s => <span key={s} className="px-2 py-1 bg-white/5 text-gray-400 rounded border border-white/10">{s}</span>)}
-                            {job.missing_skills.length > 5 && <span className="text-gray-500 self-center">+{job.missing_skills.length - 5} more</span>}
+                            {job.missing_skills.slice(0, 5).map(s => <span key={s} className="px-2 py-1 bg-slate-50 text-slate-500 rounded border border-slate-200">{s}</span>)}
+                            {job.missing_skills.length > 5 && <span className="text-slate-500 self-center">+{job.missing_skills.length - 5} more</span>}
                            </div>
                         </div>
                       )}
@@ -1084,8 +1084,8 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiCpu size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">BERT Semantic Skill Alignment</h3>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <h3 className="text-xl font-bold text-slate-800">BERT Semantic Skill Alignment</h3>
+                  <p className="text-xs text-slate-500 mt-1">
                     Powered by <code>sentence-transformers/all-MiniLM-L6-v2</code>. This grades skill relevance using deep contextual matching instead of just basic keyword lookups.
                   </p>
                 </div>
@@ -1095,21 +1095,21 @@ const Dashboard = ({ result, metrics, onBack }) => {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-white/10 text-gray-400 text-[10px] font-bold uppercase tracking-wider">
+                      <tr className="border-b border-slate-200 text-slate-500 text-[10px] font-bold uppercase tracking-wider">
                         <th className="pb-3">Required Skill</th>
                         <th className="pb-3">Best Match In CV</th>
                         <th className="pb-3">Semantic Score</th>
                         <th className="pb-3">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/5 text-xs text-gray-300">
+                    <tbody className="divide-y divide-white/5 text-xs text-slate-600">
                       {match_details.map((m, idx) => (
-                        <tr key={idx} className="hover:bg-white/5 transition-colors">
-                          <td className="py-4 font-semibold text-white">{m.required}</td>
-                          <td className="py-4 font-mono">{m.best_match || <span className="text-gray-600 italic">No close match</span>}</td>
+                        <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-4 font-semibold text-slate-800">{m.required}</td>
+                          <td className="py-4 font-mono">{m.best_match || <span className="text-slate-400 italic">No close match</span>}</td>
                           <td className="py-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                              <div className="w-24 h-1.5 bg-slate-50 rounded-full overflow-hidden">
                                 <div 
                                   className={`h-full rounded-full ${m.confidence > 75 ? 'bg-emerald-500' : m.confidence > 50 ? 'bg-yellow-500' : 'bg-red-500'}`} 
                                   style={{ width: `${m.confidence}%` }} 
@@ -1133,7 +1133,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   </table>
                 </div>
               ) : (
-                <div className="text-center py-12 text-gray-500 text-sm">
+                <div className="text-center py-12 text-slate-500 text-sm">
                   BERT analysis details not available. Run CV scan first.
                 </div>
               )}
@@ -1149,42 +1149,42 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiMic size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Mock Interview Evaluation</h3>
-                  <p className="text-xs text-gray-400 mt-1">Latest spoken response grading report using Web Speech Recognition & BERT model</p>
+                  <h3 className="text-xl font-bold text-slate-800">Mock Interview Evaluation</h3>
+                  <p className="text-xs text-slate-500 mt-1">Latest spoken response grading report using Web Speech Recognition & BERT model</p>
                 </div>
               </div>
 
               {latestInterview ? (
                 <div className="space-y-6">
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 justify-between">
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6 justify-between">
                     <div>
-                      <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">Evaluation Date</span>
-                      <p className="text-sm font-semibold text-white mt-1">
+                      <span className="text-slate-500 text-xs font-bold uppercase tracking-wider">Evaluation Date</span>
+                      <p className="text-sm font-semibold text-slate-800 mt-1">
                         {new Date(latestInterview.timestamp).toLocaleDateString()} at {new Date(latestInterview.timestamp).toLocaleTimeString()}
                       </p>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
                         <div className="text-4xl font-black text-emerald-400">{latestInterview.finalScore}%</div>
-                        <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Average Score</span>
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Average Score</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-4">
                     {latestInterview.questionScores.map((item, idx) => (
-                      <div key={idx} className="bg-black/35 border border-white/5 rounded-xl p-5 space-y-3">
+                      <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
                         <div className="flex justify-between items-center">
                           <span className="text-xs text-violet-400 font-bold uppercase">Question {idx + 1}</span>
                           <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                             Score: {item.score}%
                           </span>
                         </div>
-                        <h4 className="text-white text-sm font-semibold">"{item.question}"</h4>
-                        <div className="p-3 bg-white/[0.02] border border-white/5 rounded-lg text-xs italic text-gray-400">
+                        <h4 className="text-slate-800 text-sm font-semibold">"{item.question}"</h4>
+                        <div className="p-3 bg-slate-50/50 border border-slate-200 rounded-lg text-xs italic text-slate-500">
                           "{item.answer}"
                         </div>
-                        <p className="text-xs text-gray-300">
+                        <p className="text-xs text-slate-600">
                           <strong className="text-violet-400">AI Feedback:</strong> {item.feedback}
                         </p>
                       </div>
@@ -1192,11 +1192,11 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12 border-2 border-dashed border-white/5 rounded-2xl p-6 space-y-4">
-                  <p className="text-gray-400 text-sm">No mock interview record found on this browser.</p>
+                <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl p-6 space-y-4">
+                  <p className="text-slate-500 text-sm">No mock interview record found on this browser.</p>
                   <button 
                     onClick={() => setIsBiometricOpen(true)}
-                    className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
+                    className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-slate-800 text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
                   >
                     <FiMic size={14} /> Start Your First Session
                   </button>
@@ -1214,8 +1214,8 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiTrendingUp size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Live Market Skill Trends</h3>
-                  <p className="text-xs text-gray-400 mt-1">Real-time industry requirements tracking and dynamic skill forecasting</p>
+                  <h3 className="text-xl font-bold text-slate-800">Live Market Skill Trends</h3>
+                  <p className="text-xs text-slate-500 mt-1">Real-time industry requirements tracking and dynamic skill forecasting</p>
                 </div>
               </div>
 
@@ -1228,12 +1228,12 @@ const Dashboard = ({ result, metrics, onBack }) => {
                     <div className="space-y-3">
                       {marketPulseData.trending.map((t, idx) => (
                         <div key={idx} className="flex justify-between items-center text-xs">
-                          <span className="text-white font-semibold">{t.skill}</span>
+                          <span className="text-slate-800 font-semibold">{t.skill}</span>
                           <span className="text-emerald-400 font-bold bg-emerald-500/20 px-2 py-0.5 rounded">{t.growth} YoY</span>
                         </div>
                       ))}
                     </div>
-                    <p className="text-[10px] text-gray-400 italic">Action: Including these trending technologies on your CV gives you a 15% ATS advantage.</p>
+                    <p className="text-[10px] text-slate-500 italic">Action: Including these trending technologies on your CV gives you a 15% ATS advantage.</p>
                   </div>
 
                   <div className="p-5 rounded-xl border border-red-500/20 bg-red-500/5 space-y-4">
@@ -1243,16 +1243,16 @@ const Dashboard = ({ result, metrics, onBack }) => {
                     <div className="space-y-3">
                       {marketPulseData.declining.map((d, idx) => (
                         <div key={idx} className="flex justify-between items-center text-xs">
-                          <span className="text-white font-semibold">{d.skill}</span>
+                          <span className="text-slate-800 font-semibold">{d.skill}</span>
                           <span className="text-red-400 font-bold bg-red-500/20 px-2 py-0.5 rounded">{d.drop}</span>
                         </div>
                       ))}
                     </div>
-                    <p className="text-[10px] text-gray-400 italic">Action: Replace obsolete tech stacks with modern equivalents to stand out to recruiters.</p>
+                    <p className="text-[10px] text-slate-500 italic">Action: Replace obsolete tech stacks with modern equivalents to stand out to recruiters.</p>
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12 text-gray-500 text-sm">
+                <div className="text-center py-12 text-slate-500 text-sm">
                   Loading latest market trends data...
                 </div>
               )}
@@ -1268,29 +1268,29 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiLayers size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Project Catalyst: Resume Enhancers</h3>
-                  <p className="text-xs text-gray-400 mt-1">Custom hands-on project ideas to fill your critical skill gaps with high-quality repo additions</p>
+                  <h3 className="text-xl font-bold text-slate-800">Project Catalyst: Resume Enhancers</h3>
+                  <p className="text-xs text-slate-500 mt-1">Custom hands-on project ideas to fill your critical skill gaps with high-quality repo additions</p>
                 </div>
               </div>
 
               {missing_skills.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {missing_skills.slice(0, 4).map((skill, idx) => (
-                    <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
+                    <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-[10px] bg-cyan-500/10 text-cyan-400 font-bold px-2 py-0.5 rounded border border-cyan-500/20">Project #{idx + 1}</span>
-                        <span className="text-[10px] font-semibold text-gray-400">Fills Gap: {skill}</span>
+                        <span className="text-[10px] font-semibold text-slate-500">Fills Gap: {skill}</span>
                       </div>
-                      <h4 className="text-white text-sm font-bold">
+                      <h4 className="text-slate-800 text-sm font-bold">
                         {skill === 'AWS' || skill === 'Docker' || skill === 'Kubernetes' ? `Cloud Native ${skill} Orchestration Pipeline` :
                          skill === 'Python' || skill === 'FastAPI' || skill === 'Node.js' ? `Scalable Backend REST API for ${skill}` :
                          skill === 'React' || skill === 'JavaScript' || skill === 'TypeScript' ? `Single Page Dashboard App using ${skill}` :
                          `Production-ready ${skill} Application`}
                       </h4>
-                      <p className="text-gray-400 text-xs leading-relaxed">
+                      <p className="text-slate-500 text-xs leading-relaxed">
                         Create a GitHub repository demonstrating clean architecture, unit testing, and Docker setup. Write a detailed README including an architecture design diagram.
                       </p>
-                      <div className="pt-2 flex justify-between items-center text-[10px] text-gray-500 border-t border-white/5 font-mono">
+                      <div className="pt-2 flex justify-between items-center text-[10px] text-slate-500 border-t border-slate-200 font-mono">
                         <span>Expected Scope: 12-18 Hours</span>
                         <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">🔗 Reference Templates</a>
                       </div>
@@ -1298,7 +1298,7 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 bg-white/5 rounded-2xl">
+                <div className="text-center py-12 bg-slate-50 rounded-2xl">
                   <p className="text-emerald-400 font-semibold text-sm">🎉 You have zero skill gaps! Your profile aligns perfectly with required benchmarks.</p>
                 </div>
               )}
@@ -1314,8 +1314,8 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiTarget size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Salary Estimator & Upskill ROI</h3>
-                  <p className="text-xs text-gray-400 mt-1">Analyze projected market salary increases by completing your active skill learning tracks</p>
+                  <h3 className="text-xl font-bold text-slate-800">Salary Estimator & Upskill ROI</h3>
+                  <p className="text-xs text-slate-500 mt-1">Analyze projected market salary increases by completing your active skill learning tracks</p>
                 </div>
               </div>
 
@@ -1325,22 +1325,22 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   { label: 'Estimated Base Package', value: `$${Math.round(65000 + skill_match_pct * 350)} - $${Math.round(85000 + skill_match_pct * 450)}`, labelColor: 'text-emerald-400' },
                   { label: 'Upskill Potential Bonus', value: `+$${missing_skills.length * 2800} / Year`, labelColor: 'text-yellow-400' },
                 ].map((item, i) => (
-                  <div key={i} className="bg-white/5 border border-white/10 p-5 rounded-xl text-center">
-                    <span className="text-gray-500 text-[10px] uppercase font-bold tracking-wider">{item.label}</span>
+                  <div key={i} className="bg-slate-50 border border-slate-200 p-5 rounded-xl text-center">
+                    <span className="text-slate-500 text-[10px] uppercase font-bold tracking-wider">{item.label}</span>
                     <div className={`text-xl font-black mt-2 ${item.labelColor}`}>{item.value}</div>
                   </div>
                 ))}
               </div>
 
-              <div className="p-5 rounded-xl border border-white/10 bg-white/[0.02] space-y-4">
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider">Salary Simulator</h4>
-                <p className="text-xs text-gray-400">
+              <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-4">
+                <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">Salary Simulator</h4>
+                <p className="text-xs text-slate-500">
                   Each required skill added to your resume increases your competitive value. Here is the estimated annual package bump for target skills:
                 </p>
                 <div className="space-y-2">
                   {missing_skills.map((skill, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-xs border-b border-white/5 pb-2">
-                      <span className="text-gray-300 font-mono font-medium">{skill}</span>
+                    <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-200 pb-2">
+                      <span className="text-slate-600 font-mono font-medium">{skill}</span>
                       <span className="text-emerald-400 font-bold">+$2,800 / yr increase</span>
                     </div>
                   ))}
@@ -1358,15 +1358,15 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiGlobe size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">ATS Resume Rephrase Toolkit</h3>
-                  <p className="text-xs text-gray-400 mt-1">Actionable bullet-point improvements to clear parsing algorithms and recruiter filters</p>
+                  <h3 className="text-xl font-bold text-slate-800">ATS Resume Rephrase Toolkit</h3>
+                  <p className="text-xs text-slate-500 mt-1">Actionable bullet-point improvements to clear parsing algorithms and recruiter filters</p>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <div className="bg-white/5 border border-white/10 rounded-xl p-5 space-y-3">
-                  <h4 className="text-sm font-bold text-white">Action-Impact Bullet Framework</h4>
-                  <p className="text-xs text-gray-400 leading-relaxed">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+                  <h4 className="text-sm font-bold text-slate-800">Action-Impact Bullet Framework</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">
                     Recruiters and parsing bots scan for specific accomplishment patterns: <strong>[Action Verb] + [Context/Project] + [Measurable Result]</strong>.
                   </p>
                 </div>
@@ -1377,14 +1377,14 @@ const Dashboard = ({ result, metrics, onBack }) => {
                     { before: "Helped manage deployment of cloud servers on AWS EC2.", after: "Implemented containerized deployments on AWS EC2 using Docker, improving pipeline efficiency by 22%." },
                     { before: "Fixed bugs in our database queries to optimize code.", after: "Optimized PostgreSQL relational queries using compound indexing, saving 40% memory overhead." }
                   ].map((item, idx) => (
-                    <div key={idx} className="p-4 bg-black/40 rounded-xl border border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <span className="text-[10px] text-red-400 uppercase font-bold tracking-wider">Passive (Poor ATS Match)</span>
-                        <p className="text-xs text-gray-400 mt-1 italic">"{item.before}"</p>
+                        <p className="text-xs text-slate-500 mt-1 italic">"{item.before}"</p>
                       </div>
-                      <div className="border-t md:border-t-0 md:border-l border-white/10 pt-3 md:pt-0 md:pl-4">
+                      <div className="border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0 md:pl-4">
                         <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-wider">Active (High Impact Score)</span>
-                        <p className="text-xs text-white mt-1 font-medium">"{item.after}"</p>
+                        <p className="text-xs text-slate-800 mt-1 font-medium">"{item.after}"</p>
                       </div>
                     </div>
                   ))}
@@ -1402,27 +1402,27 @@ const Dashboard = ({ result, metrics, onBack }) => {
                   <FiUsers size={24} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Competitive Peer Index</h3>
-                  <p className="text-xs text-gray-400 mt-1">Comparison metrics against the applicant pool for software roles in target companies</p>
+                  <h3 className="text-xl font-bold text-slate-800">Competitive Peer Index</h3>
+                  <p className="text-xs text-slate-500 mt-1">Comparison metrics against the applicant pool for software roles in target companies</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-                    <span className="text-xs text-gray-400 font-bold uppercase">Resume Formatting Percentile</span>
-                    <div className="text-3xl font-black text-white mt-2">Top 15%</div>
-                    <p className="text-[10px] text-gray-500 mt-1">Your formatting is clear, structured, and easy for ATS models to parse.</p>
+                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                    <span className="text-xs text-slate-500 font-bold uppercase">Resume Formatting Percentile</span>
+                    <div className="text-3xl font-black text-slate-800 mt-2">Top 15%</div>
+                    <p className="text-[10px] text-slate-500 mt-1">Your formatting is clear, structured, and easy for ATS models to parse.</p>
                   </div>
-                  <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
-                    <span className="text-xs text-gray-400 font-bold uppercase">Technical Depth Metric</span>
-                    <div className="text-3xl font-black text-white mt-2">Top 38%</div>
-                    <p className="text-[10px] text-gray-500 mt-1">Improve your ranking by completing the missing skill list on your Upskill roadmap.</p>
+                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                    <span className="text-xs text-slate-500 font-bold uppercase">Technical Depth Metric</span>
+                    <div className="text-3xl font-black text-slate-800 mt-2">Top 38%</div>
+                    <p className="text-[10px] text-slate-500 mt-1">Improve your ranking by completing the missing skill list on your Upskill roadmap.</p>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-xl border border-white/5 bg-black/40">
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3">Applicant Pool Skills Checklist</h4>
+                <div className="p-5 rounded-xl border border-slate-200 bg-slate-50">
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">Applicant Pool Skills Checklist</h4>
                   <div className="space-y-2">
                     {[
                       { skill: "Data Structures & Algorithms", rate: 88 },
@@ -1431,11 +1431,11 @@ const Dashboard = ({ result, metrics, onBack }) => {
                       { skill: "Unit Testing & QA Standards", rate: 45 }
                     ].map((peer, idx) => (
                       <div key={idx}>
-                        <div className="flex justify-between text-xs text-gray-400 mb-1">
+                        <div className="flex justify-between text-xs text-slate-500 mb-1">
                           <span>{peer.skill}</span>
                           <span>{peer.rate}% of applicants claim this</span>
                         </div>
-                        <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-1 bg-slate-50 rounded-full overflow-hidden">
                           <div className="h-full bg-violet-500" style={{ width: `${peer.rate}%` }} />
                         </div>
                       </div>
