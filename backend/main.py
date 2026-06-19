@@ -362,6 +362,124 @@ async def analyze_cv(
     )
 
 
+# ─────────────────────────────────────────────────────────────
+#  Mock Interview Evaluation (BERT + Keyword Semantic Matching)
+# ─────────────────────────────────────────────────────────────
+
+class EvaluateAnswerRequest(BaseModel):
+    question: str
+    user_answer: str
+
+class EvaluateAnswerResponse(BaseModel):
+    score: float
+    feedback: str
+    similarity: float
+    engine: str
+
+IDEAL_ANSWERS = {
+    "Can you walk me through your experience building REST APIs with Python?": {
+        "text": "I have experience building REST APIs using Python with frameworks like FastAPI or Flask. I design endpoints for CRUD operations, handle database integration using SQL or ORMs like SQLAlchemy, implement authentication using JWT tokens, handle request validation with Pydantic, and write unit tests to ensure endpoints function correctly. I also document the APIs using Swagger UI and OpenAPI specifications.",
+        "keywords": ["fastapi", "flask", "django", "rest", "api", "crud", "endpoint", "database", "sql", "orm", "sqlalchemy", "jwt", "authentication", "pydantic", "swagger", "openapi", "postman"]
+    },
+    "How would you handle a conflict within a cross-functional engineering team?": {
+        "text": "To handle a conflict, I first listen to all parties involved to understand their perspectives and identify the core issues. I maintain a professional, empathetic, and neutral stance, focusing on shared team goals rather than personal differences. We collaborate on a compromise or data-driven solution, and if necessary, document the decision or escalate it constructively to lead engineering or project managers.",
+        "keywords": ["conflict", "listen", "perspective", "neutral", "empathy", "collaborate", "compromise", "resolution", "communication", "professional", "escalate", "teamwork", "respect"]
+    },
+    "Tell me about a time you had to optimize a piece of code for performance.": {
+        "text": "I optimized performance by first profiling the code to identify bottlenecks. I replaced inefficient loops or algorithms with better time complexity, optimized database queries by adding indexes, reducing joins, or using eager loading, implemented caching mechanisms using Redis, or used asynchronous programming to handle concurrent requests efficiently, resulting in significant memory and response time reduction.",
+        "keywords": ["optimize", "performance", "profile", "bottleneck", "complexity", "time complexity", "algorithm", "database", "index", "query", "cache", "redis", "async", "asynchronous", "memory", "latency"]
+    },
+    "What interests you most about working at your target company?": {
+        "text": "I am interested in working at the target company because of its strong engineering culture, focus on innovation, and the scale of its products. I want to contribute my skills in full-stack development, Python, and machine learning to build high-performance services, collaborate with talented developers, and grow technically while solving challenging real-world problems.",
+        "keywords": ["culture", "engineering", "innovation", "scale", "product", "contribute", "skills", "learn", "grow", "challenge", "impact", "mission", "values"]
+    },
+    "Do you have experience working with cloud-native architectures like AWS or Azure?": {
+        "text": "Yes, I have experience working with cloud-native architectures. I deploy and manage services using cloud services like AWS EC2, S3 for storage, RDS for relational databases, or Azure App Services. I use containerization with Docker and orchestrate services using Kubernetes or ECS. I also configure CI/CD pipelines, IAM roles for security, and basic monitoring tools.",
+        "keywords": ["cloud", "cloud-native", "aws", "azure", "gcp", "deploy", "ec2", "s3", "rds", "container", "docker", "kubernetes", "k8s", "ecs", "cicd", "pipeline", "iam", "monitoring"]
+    }
+}
+
+@app.post("/evaluate-answer", response_model=EvaluateAnswerResponse)
+async def evaluate_answer(req: EvaluateAnswerRequest):
+    q = req.question.strip()
+    ans = req.user_answer.strip()
+    
+    # 1. Match question
+    matched_q = None
+    for k in IDEAL_ANSWERS.keys():
+        if k.lower() in q.lower() or q.lower() in k.lower():
+            matched_q = k
+            break
+            
+    if not matched_q:
+        ideal_text = "I have strong software engineering skills, relevant experience in Python, web frameworks, API design, database systems, version control with Git, and cloud services."
+        keywords = ["python", "git", "database", "api", "team", "cloud"]
+    else:
+        ideal_text = IDEAL_ANSWERS[matched_q]["text"]
+        keywords = IDEAL_ANSWERS[matched_q]["keywords"]
+        
+    if not ans or len(ans.split()) < 3:
+        return EvaluateAnswerResponse(
+            score=15.0,
+            feedback="The answer was too brief or empty. Please provide a detailed response to the question.",
+            similarity=0.0,
+            engine="none"
+        )
+        
+    # A. Length score (up to 20 points)
+    words = ans.split()
+    word_count = len(words)
+    length_score = min(20.0, (word_count / 50.0) * 20.0)
+    
+    # B. Keyword coverage (up to 20 points)
+    ans_lower = ans.lower()
+    kw_matches = [k for k in keywords if k in ans_lower]
+    kw_score = min(20.0, (len(kw_matches) / max(1, len(keywords) * 0.4)) * 20.0)
+    
+    # C. Semantic Match Score (up to 60 points)
+    sim_score = 0.0
+    engine_used = "keyword"
+    try:
+        from ml_pipeline.semantic_matcher import _get_model
+        model = _get_model()
+        if model is not None:
+            from sentence_transformers import util
+            emb_user = model.encode(ans, convert_to_tensor=True)
+            emb_ideal = model.encode(ideal_text, convert_to_tensor=True)
+            cos_sim = float(util.cos_sim(emb_user, emb_ideal).cpu().numpy()[0][0])
+            sim_score = max(0.0, min(1.0, cos_sim))
+            engine_used = "bert"
+        else:
+            overlap = set(ans_lower.split()).intersection(set(ideal_text.lower().split()))
+            sim_score = len(overlap) / max(1, len(set(ideal_text.lower().split())))
+    except Exception:
+        overlap = set(ans_lower.split()).intersection(set(ideal_text.lower().split()))
+        sim_score = len(overlap) / max(1, len(set(ideal_text.lower().split())))
+        
+    semantic_component = 30.0 + (sim_score * 30.0)
+    
+    total_score = length_score + kw_score + semantic_component
+    import random
+    total_score = max(15.0, min(98.0, total_score + random.uniform(-2, 2)))
+    total_score = round(total_score, 1)
+    
+    if total_score >= 85:
+        feedback = "Excellent answer! You demonstrated deep technical knowledge, clear expression, and covered key industry-standard concepts beautifully."
+    elif total_score >= 70:
+        feedback = "Good response. You touched upon most of the expected details, but could expand more on the exact technologies or methodologies used."
+    elif total_score >= 50:
+        feedback = "Average response. The answer is relevant but lacks specific details, technical depth, or structured explanation."
+    else:
+        feedback = "Below average response. Try to include more industry keywords, explain your concrete experience, or structure your answer with examples."
+        
+    return EvaluateAnswerResponse(
+        score=total_score,
+        feedback=feedback,
+        similarity=round(sim_score * 100, 1),
+        engine=engine_used
+    )
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
