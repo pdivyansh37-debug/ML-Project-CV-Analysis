@@ -14,6 +14,7 @@
 TonyCV utilizes a decoupled micro-architecture designed for scalability and high-performance analysis:
 
 - **Frontend Application**: A React 19 (Vite) single-page application utilizing atomic design principles, glassmorphic UI, and real-time state persistence.
+- **Mobile Application**: A native Android build wrapped using Capacitor for mobile recruitment experiences.
 - **NLP & ML Engine**: A FastAPI (Python) backend serving as the core computational layer, handling vector extraction and predictive inference.
 - **Data Persistence**: LocalStorage and session-based state management for ultra-fast, offline-capable performance.
 
@@ -62,6 +63,7 @@ An AI-driven practice module tracking technical responses. (Note: Current versio
 | Layer | Technologies |
 | :--- | :--- |
 | **Frontend** | React 19, Vite, Tailwind CSS, Lucide Icons, Chart.js, LocalStorage API |
+| **Mobile** | Capacitor (Android) |
 | **Backend** | FastAPI, Uvicorn, Python 3.12+ |
 | **ML/Analytics** | Scikit-Learn, Pandas, NumPy, Joblib |
 | **NLP** | spaCy (en_core_web_sm), PDFPlumber, RE |
@@ -108,6 +110,16 @@ uvicorn main:app --reload
 cd frontend
 npm install
 npm run dev
+```
+
+**Android Mobile Build Setup:**
+```bash
+cd frontend
+npm install
+npx cap sync android
+# Build the release APK (Android Studio can also be opened via 'npx cap open android')
+cd android
+./gradlew assembleRelease
 ```
 
 ---

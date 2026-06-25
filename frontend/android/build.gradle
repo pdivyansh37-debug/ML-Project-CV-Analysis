@@ -22,6 +22,17 @@ allprojects {
         google()
         mavenCentral()
     }
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-stdlib-jdk7') {
+                details.useVersion '1.8.22'
+            }
+            if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-stdlib-jdk8') {
+                details.useVersion '1.8.22'
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {
